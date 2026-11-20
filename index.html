@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>ஹோமம், பூஜை & மந்திரங்கள் - Krupa</title>
+<style>
+  :root {
+    --bg: #fdf8f0;
+    --card: #ffffff;
+    --text: #1f1610;
+    --muted: #6b5344;
+    --primary: #8b1e1e;
+    --accent: #d97706;
+    --border: #e6d5c1;
+    --mantra-bg: #fff7ed;
+    --highlight: #b91c1c;
+    --font-size: 19px;
+  }
+  [data-theme="light"] {
+    --bg: #f4f4f5;
+    --card: #ffffff;
+    --text: #111827;
+    --muted: #4b5563;
+    --primary: #7f1d1d;
+    --accent: #b45309;
+    --border: #d1d5db;
+    --mantra-bg: #fefce8;
+    --highlight: #991b1b;
+  }
+  [data-theme="dark"] {
+    --bg: #12100e;
+    --card: #1e1a17;
+    --text: #f3e8dc;
+    --muted: #b8a390;
+    --primary: #f59e0b;
+    --accent: #fbbf24;
+    --border: #3a3028;
+    --mantra-bg: #29221c;
+    --highlight: #fcd34d;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Noto Sans Tamil', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: var(--font-size);
+    line-height: 1.75;
+    padding-bottom: 85px;
+    transition: background 0.2s, color 0.2s;
+  }
+  /* Sticky Top Utility Bar */
+  .top-bar {
+    background: var(--primary);
+    color: #fff;
+    padding: 10px 14px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.22);
+  }
+  [data-theme="dark"] .top-bar { background: #2c1810; border-bottom: 1px solid var(--border); }
+  .header-top {
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+  .header-title { font-size: 1.02rem; font-weight: 700; line-height: 1.3; }
+  .controls { display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
+  .btn-icon {
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #fff;
+    padding: 5px 9px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .btn-icon.active { background: #16a34a; border-color: #22c55e; }
+
+  /* Hero Banner Header */
+  .hero-banner {
+    max-width: 960px;
+    margin: 12px auto 0;
+    padding: 0 12px;
+  }
+  .hero-banner img {
+    width: 100%;
+    height: auto;
+    max-height: 340px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 2px solid var(--accent);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    display: block;
+  }
+
+  .container { max-width: 960px; margin: 0 auto; padding: 12px; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 14px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+  }
+  label { display: block; font-size: 0.85rem; font-weight: 700; color: var(--muted); margin-bottom: 4px; }
+  select, input[type="date"], input[type="text"] {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+    font-family: inherit;
+    font-weight: 600;
+  }
+  .top-controls-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .panchanga-summary {
+    margin-top: 10px;
+    padding: 10px 12px;
+    background: var(--mantra-bg);
+    border-left: 4px solid var(--accent);
+    border-radius: 6px;
+    font-size: 0.92rem;
+  }
+  .panchanga-grid {
+    display: none;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--border);
+  }
+  .panchanga-grid.open { display: grid; }
+  .section-badge {
+    display: inline-block;
+    background: var(--primary);
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 6px;
+  }
+  [data-theme="dark"] .section-badge { color: #12100e; }
+  h2 {
+    font-size: 1.2rem;
+    color: var(--primary);
+    margin-bottom: 10px;
+    border-bottom: 1.5px solid var(--border);
+    padding-bottom: 6px;
+  }
+  h3 { font-size: 1.05rem; color: var(--accent); margin: 14px 0 6px; }
+  .mantra-box {
+    background: var(--mantra-bg);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--primary);
+    padding: 12px 14px;
+    border-radius: 8px;
+    margin: 10px 0;
+    font-weight: 600;
+  }
+  .suktam-box {
+    background: var(--mantra-bg);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    padding: 14px;
+    border-radius: 8px;
+    margin: 10px 0;
+  }
+  .verse-block {
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed var(--border);
+  }
+  .verse-block:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+  .filled {
+    color: var(--highlight);
+    text-decoration: underline dotted;
+    font-weight: 700;
+  }
+  .blank-holder {
+    background: rgba(217, 119, 6, 0.15);
+    padding: 1px 6px;
+    border-radius: 4px;
+    color: var(--highlight);
+    font-weight: 700;
+  }
+  .magimai-box {
+    background: linear-gradient(135deg, rgba(217,119,6,0.12), rgba(139,30,30,0.08));
+    border: 1px solid var(--accent);
+    border-radius: 10px;
+    padding: 14px;
+  }
+  .step-list { padding-left: 20px; }
+  .step-list li { margin-bottom: 8px; }
+  .ashtotharam-controls {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    background: var(--mantra-bg);
+    padding: 10px 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border: 1px solid var(--border);
+  }
+  .namavali-status-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+  .namavali-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+    max-height: 380px;
+    overflow-y: auto;
+    padding-right: 4px;
+  }
+  .nama-item {
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    user-select: none;
+  }
+  .nama-item.done {
+    background: rgba(22, 163, 74, 0.15);
+    border-color: #16a34a;
+    text-decoration: line-through;
+    opacity: 0.8;
+  }
+  .nama-num {
+    background: var(--primary);
+    color: #fff;
+    font-size: 0.75rem;
+    min-width: 28px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  [data-theme="dark"] .nama-num { color: #12100e; }
+
+  /* Footer Copyright */
+  footer.app-footer {
+    text-align: center;
+    padding: 16px 12px 24px;
+    color: var(--muted);
+    font-size: 0.9rem;
+    font-weight: 700;
+    border-top: 1px solid var(--border);
+    margin-top: 10px;
+  }
+
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--card);
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding: 8px 10px;
+    gap: 8px;
+    z-index: 99;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
+  }
+  .nav-pill {
+    white-space: nowrap;
+    padding: 6px 12px;
+    border-radius: 20px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .nav-pill:active { background: var(--primary); color: #fff; }
+  .small-btn {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  /* Responsive Landscape & Tablet/Desktop Adaptation */
+  @media (min-width: 640px) {
+    .top-controls-grid {
+      grid-template-columns: 1.3fr 1fr;
+      align-items: end;
+    }
+    .panchanga-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .ashtotharam-controls {
+      grid-template-columns: 1.2fr 1fr;
+      align-items: center;
+    }
+    .namavali-grid {
+      grid-template-columns: 1fr 1fr;
+      max-height: 320px;
+    }
+    .bottom-nav {
+      justify-content: center;
+    }
+  }
+</style>
+</head>
+<body data-theme="parchment">
+
+<div class="top-bar">
+  <div class="header-top">
+    <div class="header-title">🕉️ ஹோமம், பூஜை & மந்திரங்கள்</div>
+    <div class="controls">
+      <button class="btn-icon" onclick="changeFont(-2)" title="எழுத்து சிறிதாக்கு">A-</button>
+      <button class="btn-icon" onclick="changeFont(2)" title="எழுத்து பெரிதாக்கு">A+</button>
+      <button class="btn-icon" onclick="cycleTheme()" id="themeBtn" title="தீம் மாற்று">📜</button>
+      <button class="btn-icon" onclick="toggleWakeLock()" id="wakeBtn" title="திரை அணையாமல் இருக்க">💡</button>
+    </div>
+  </div>
+</div>
+
+<!-- Header Banner Image -->
+<header class="hero-banner">
+  <img src="./header.png"
+       onerror="this.onerror=null; this.src='./Gemini_Generated_Image_58ebnn58ebnn58eb.png';"
+       alt="ஹோமம், பூஜை & மந்திரங்கள் - புனித சடங்குகள் மற்றும் மந்திரங்களின் சக்தி">
+</header>
+
+<div class="container">
+  <!-- Selection Card -->
+  <div class="card">
+    <div class="top-controls-grid">
+      <div>
+        <label for="poojaSelect">1. பூஜை / ஹோமம் / சாந்தியைத் தேர்ந்தெடுக்கவும்:</label>
+        <select id="poojaSelect" onchange="renderPooja()">
+          <option value="ganapathy">1. ஸ்ரீ மஹாகணபதி ஹோமம்</option>
+          <option value="ayush">2. ஆயுஷ் ஹோமம் (பிறந்தநாள் / ஆரோக்கியம்)</option>
+          <option value="kadhamba">3. கதம்ப ஹோமம் (சர்வ தேவதா சாந்தி)</option>
+          <option value="navagraha">4. நவக்கிரக ஹோமம்</option>
+          <option value="vastu">5. வாஸ்து சாந்தி ஹோமம்</option>
+          <option value="sudarshana">6. ஸ்ரீ சுதர்சன ஹோமம்</option>
+          <option value="lakshmi">7. ஸ்ரீ மஹாலக்ஷ்மி ஹோமம்</option>
+          <option value="sathru">8. சத்ரு சம்ஹார ஹோமம் (சுப்ரமண்யர்)</option>
+          <option value="mrityunjaya">9. மஹா மிருத்யுஞ்சய ஹோமம்</option>
+          <option value="punyaham">10. சுத்தி புண்யாகவாசனம்</option>
+          <option value="avani">11. ஆவணி அவிட்டம் (மஹா சங்கல்பம்)</option>
+          <option value="varalakshmi">12. ஸ்ரீ வரலக்ஷ்மி விரத பூஜை</option>
+          <option value="gowri">13. ஸ்ரீ கேதார கௌரி விரத பூஜை</option>
+          <option value="shastiyapthi">14. சஷ்டியப்த பூர்த்தி சாந்தி (60-ஆம் கல்யாணம்)</option>
+          <option value="bheemaradha">15. பீமரத சாந்தி (70-ஆம் ஆண்டு சாந்தி)</option>
+          <option value="sadhabhishegam">16. சதாபிஷேகம் (80-ஆம் ஆண்டு / 1000 பிறை)</option>
+        </select>
+      </div>
+
+      <div class="grid-2">
+        <div>
+          <label for="poojaDate">2. பூஜை தேதி:</label>
+          <input type="date" id="poojaDate" onchange="updatePanchangaFromDate()">
+        </div>
+        <div style="display:flex; align-items:flex-end;">
+          <button class="small-btn" style="width:100%; height:44px;" onclick="togglePanchangaEdit()">⚙️ பஞ்சாங்கம் திருத்து</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="panchanga-summary" id="panchangaSummary"></div>
+
+    <div class="panchanga-grid" id="panchangaEditBox">
+      <div><label>தமிழ் வருடம்</label><input type="text" id="p_samvatsara" oninput="syncManualPanchanga()"></div>
+      <div><label>அயனம்</label><input type="text" id="p_ayanam" oninput="syncManualPanchanga()"></div>
+      <div><label>ருது</label><input type="text" id="p_ruthu" oninput="syncManualPanchanga()"></div>
+      <div><label>மாஸம் (தமிழ் மாதம்)</label><input type="text" id="p_masam" oninput="syncManualPanchanga()"></div>
+      <div><label>பக்ஷம்</label><input type="text" id="p_paksham" oninput="syncManualPanchanga()"></div>
+      <div><label>திதி</label><input type="text" id="p_thithi" oninput="syncManualPanchanga()"></div>
+      <div><label>வாஸரம் (கிழமை)</label><input type="text" id="p_vasaram" oninput="syncManualPanchanga()"></div>
+      <div><label>நட்சத்திரம் (சம்ஸ்கிருதம்)</label><input type="text" id="p_nakshatram" oninput="syncManualPanchanga()"></div>
+      <div><label>யோகம்</label><input type="text" id="p_yogam" oninput="syncManualPanchanga()"></div>
+      <div><label>கரணம்</label><input type="text" id="p_karanam" oninput="syncManualPanchanga()"></div>
+    </div>
+  </div>
+
+  <!-- Step 1: Magimai -->
+  <div class="card magimai-box" id="sec-magimai">
+    <span class="section-badge">படி 1 • கர்த்தாவிடம் கூற வேண்டியது</span>
+    <h2>பூஜையின் மகிமை & பலன்கள்</h2>
+    <div id="magimaiContent"></div>
+  </div>
+
+  <!-- Step 2: Poorvangam & Ganapathy Pooja -->
+  <div class="card" id="sec-ganapathy">
+    <span class="section-badge">படி 2 • பூர்வாங்க பூஜை</span>
+    <h2>ஆசமனம் & மஹாகணபதி பூஜை (16 நாமாவளி)</h2>
+    <ol class="step-list">
+      <li><strong>ஆசமனம் (3 முறை தீர்த்தம் அருந்தவும்):</strong><br>
+      <em>ஓம் அச்யுதாய நம: | ஓம் அனந்தாய நம: | ஓம் கோவிந்தாய நம:</em></li>
+      <li><strong>கணபதி தியானம் (நெற்றியில் குட்டிக்கொண்டு):</strong><br>
+      <em>சுக்லாம்பரதரம் விஷ்ணும் சசிவர்ணம் சதுர்புஜம் | ப்ரஸன்ன வதனம் த்யாயேத் ஸர்வ விக்னோப சாந்தயே ||</em></li>
+      <li><strong>ப்ராணாயாமம்:</strong><br>
+      <em>ஓம் பூ: ஓம் புவ: ஓம் ஸுவ: ஓம் மஹ: ஓம் ஜன: ஓம் தப: ஓம் ஸத்யம் | ஓம் தத்ஸவிதுர்வரேண்யம் பர்கோ தேவஸ்ய தீமஹி தியோ யோ ந: ப்ரசோதயாத் | ஓமாபோ ஜ்யோதீ ரஸோ அம்ருதம் ப்ரஹ்ம பூர்புவஸ்ஸுவரோம் ||</em></li>
+    </ol>
+
+    <h3>மஹாகணபதி பூஜை சங்கல்பம்</h3>
+    <div class="mantra-box" id="ganapathySankalpamBox"></div>
+
+    <h3>மஞ்சள் பிள்ளையார் பூஜை மந்திரங்கள் (ஸுமுகாய... 16 நாமங்கள்)</h3>
+    <div class="mantra-box">
+      <strong>ஆவாஹனம்:</strong> ஓம் கணானாம் த்வா கணபதிம் ஹவாமஹே கவிம் கவீனாமுபமஸ்ரவஸ்தமம் | ஜ்யேஷ்டராஜம் ப்ரஹ்மணாம் ப்ரஹ்மணஸ்பத ஆ ந: ச்ருண்வன்னூதிபிஸ்ஸீத ஸாதனம் || அஸ்மின் ஹரித்ரா பிம்பே ஸ்ரீ மஹாகணபதிம் த்யாயாமி, ஆவாஹயாமி.<br><br>
+      <strong>உபசாரம்:</strong> ஆஸனம், பாத்யம், அர்க்கியம், ஆசமனீயம், சுத்தோதக ஸ்நானம், வஸ்திரம், உபவீதம், கந்தம், ஹரித்ரா குங்குமம், அக்ஷதான் ஸமர்ப்பயாமி.<br><br>
+      <strong>ஷோடச நாமாவளி அர்ச்சனை (16 நாமங்கள்):</strong><br>
+      1. ஓம் <strong>ஸுமுகாய</strong> நம: | 2. ஓம் <strong>ஏகதந்தாய</strong> நம: | 3. ஓம் <strong>கபிலாய</strong> நம: | 4. ஓம் <strong>கஜகர்ணகாய</strong> நம: | 5. ஓம் <strong>லம்போதராய</strong> நம: | 6. ஓம் <strong>விகடாய</strong> நம: | 7. ஓம் <strong>விக்னராஜாய</strong> நம: | 8. ஓம் <strong>விநாயகாய</strong> நம: | 9. ஓம் <strong>தூமகேதவே</strong> நம: | 10. ஓம் <strong>கணாத்யக்ஷாய</strong> நம: | 11. ஓம் <strong>பாலசந்த்ராய</strong> நம: | 12. ஓம் <strong>கஜானனாய</strong> நம: | 13. ஓம் <strong>வக்ரதுண்டாய</strong> நம: | 14. ஓம் <strong>சூர்ப்பகர்ணாய</strong> நம: | 15. ஓம் <strong>ஹேரம்பாய</strong> நம: | 16. ஓம் <strong>ஸ்கந்தபூர்வஜாய</strong> நம: ||<br>
+      <em>ஸ்ரீ மஹாகணபதயே நம: நானாவித பரிமள பத்ர புஷ்பாணி ஸமர்ப்பயாமி.</em><br><br>
+      <strong>நைவேத்தியம் & ஆரத்தி:</strong> தூபமாக்ராபயாமி | தீபம் தர்சயாமி | கதலீபலம், குடசர்க்கராம் நிவேதயாமி | தாம்பூலம் ஸமர்ப்பயாமி | கர்ப்பூர நீராஜனம் தர்சயாமி | மந்த்ரபுஷ்பம், ப்ரதக்ஷிண நமஸ்காரான் ஸமர்ப்பயாமி.
+    </div>
+  </div>
+
+  <!-- Step 3: Kalasa Pooja & Ashtotharam -->
+  <div class="card" id="sec-kalasam">
+    <span class="section-badge">படி 3 • கலச பூஜை & 108 அஷ்டோத்திரம்</span>
+    <h2>கலச ஸ்தாபனம் & வருண ஆவாஹனம்</h2>
+    <div class="mantra-box">
+      <strong>1. கலச ப்ரார்த்தனை (கலசத்தைத் தொட்டுக்கொண்டு):</strong><br>
+      கலசஸ்ய முகே விஷ்ணு: கண்டே ருத்ரஸ்ஸமாச்ரித: | மூலே தத்ர ஸ்திதோ ப்ரஹ்மா மத்யே மாத்ருகணா: ஸ்ம்ருதா: || குக்ஷௌ து ஸாகராஸ்ஸர்வே ஸப்தத்வீபா வஸுந்தரா | ருக்வேதோ(அ)த யஜுர்வேதஸ்ஸாமவேதோ ஹ்யதர்வண: || அங்கைச்ச ஸஹிதாஸ்ஸர்வே கலசாம்பு ஸமாச்ரிதா: ||<br><br>
+      <strong>2. புனித நதிகள் ஆவாஹனம்:</strong><br>
+      கங்கே ச யமுனே சைவ கோதாவரி ஸரஸ்வதி | நர்மதே ஸிந்து காவேரி ஜலே(அ)ஸ்மின் ஸன்னிதிம் குரு ||<br><br>
+      <strong>3. வருண & பிரதான தெய்வ ஆவாஹனம்:</strong><br>
+      தத்வா யாமி ப்ரஹ்மணா வந்தமானஸ்ததா சாஸ்தே யஜமானோ ஹவிர்பி: | அஹேடமானோ வருணேஹ போத்யுருசம்ஸ மா ந ஆயு: ப்ரமோஷீ: || அஸ்மின் கும்பே ஸ்ரீ வருணம் த்யாயாமி, ஆவாஹயாமி. <span id="kalasaDeityLine" class="filled"></span>
+    </div>
+
+    <h3>கலச 108 அஷ்டோத்திர சத நாமாவளி</h3>
+    <div class="ashtotharam-controls">
+      <div>
+        <label for="ashtotharamSelect" style="margin-bottom:2px;">தெய்வத்தைத் தேர்ந்தெடுக்கவும்:</label>
+        <select id="ashtotharamSelect" onchange="renderAshtotharamList()">
+          <option value="shiva" selected>1. ஸ்ரீ சிவ அஷ்டோத்திரம் (Default - 108)</option>
+          <option value="durga">2. ஸ்ரீ துர்கா அஷ்டோத்திரம் (108)</option>
+          <option value="vishnu">3. ஸ்ரீ மஹாவிஷ்ணு அஷ்டோத்திரம் (108)</option>
+          <option value="lakshmi">4. ஸ்ரீ மஹாலக்ஷ்மி அஷ்டோத்திரம் (108)</option>
+          <option value="muruga">5. ஸ்ரீ சுப்ரமண்யர் / முருகன் அஷ்டோத்திரம் (108)</option>
+        </select>
+      </div>
+      <div class="namavali-status-row">
+        <span>எண்ணிக்கை: <strong id="namaCounter">0 / 108</strong></span>
+        <button class="small-btn" onclick="resetNamavali()">🔄 மீட்டமை (Reset)</button>
+      </div>
+    </div>
+    <div class="namavali-grid" id="namavaliList"></div>
+
+    <h3>கலச ஜப மந்திரம் (11 முறை ஜபிக்கவும்)</h3>
+    <div class="mantra-box" id="kalasaJabamBox"></div>
+  </div>
+
+  <!-- Step 4: Veda Parayanam, Sukthams, Rudram & Surya Namaskaram -->
+  <div class="card" id="sec-suktam">
+    <span class="section-badge">படி 4 • வேத பாராயணம், சூக்தங்கள் & ஜபம்</span>
+    <h2>சூக்தங்கள், ஸ்ரீ ருத்ரம் & சூர்ய நமஸ்காரம்</h2>
+    <div>
+      <label for="suktamSelect">பாராயணம் / ஜபம் செய்ய வேண்டியதைத் தேர்ந்தெடுக்கவும்:</label>
+      <select id="suktamSelect" onchange="renderSuktam()">
+        <option value="purusha" selected>1. புருஷ சூக்தம் (Purusha Suktam - Default)</option>
+        <option value="sri">2. ஸ்ரீ சூக்தம் (Sri Suktam)</option>
+        <option value="narayana">3. நாராயண சூக்தம் (Narayana Suktam)</option>
+        <option value="durga">4. துர்கா சூக்தம் (Durga Suktam)</option>
+        <option value="ayushya">5. ஆயுஷ்ய சூக்தம் (Ayushya Suktam - சாந்தி பூஜைகளுக்கு)</option>
+        <option value="atharva">6. ஸ்ரீ கணபதி அதர்வశீர்ஷம் (Ganapathi Atharvashirsham)</option>
+        <option value="rudram">7. ஸ்ரீ ருத்ரம் - நமகம் & சமகம் (Sri Rudram)</option>
+        <option value="suryanamaskaram">8. சூர்ய நமஸ்காரம் & அருணப் பிரச்னம் (Surya Namaskaram)</option>
+      </select>
+    </div>
+    <div class="suktam-box" id="suktamDisplayBox"></div>
+  </div>
+
+  <!-- Step 5: Main Sankalpam & Homam / Pooja -->
+  <div class="card" id="sec-main">
+    <span class="section-badge">படி 5 • பிரதான சங்கல்பம் & ஹோமம் / பூஜை</span>
+    <h2>பிரதான சங்கல்பம் & செய்முறை</h2>
+
+    <div id="agniSection">
+      <h3>அக்னி ப்ரதிஷ்டை & அக்னி முக 4 ஆஹுதிகள்</h3>
+      <div class="mantra-box">
+        <strong>அக்னி ஆவாஹனம்:</strong> ஓம் பூர்புவஸ்ஸுவரோம் | அக்னிம் தூதம் வ்ருணீமஹே ஹோதாரம் விச்வவேதஸம் | அஸ்ய யஜ்ஞஸ்ய ஸுக்ரதும் || அக்னயே நம: அக்னிம் ஆவாஹயாமி.<br><br>
+        <strong>நெய்யால் 4 அடிப்படை ஆஹுதிகள்:</strong><br>
+        • ஓம் ப்ரஜாபதயே ஸ்வாஹா | ப்ரஜாபதய இதம் ந மம ||<br>
+        • ஓம் இந்த்ராய ஸ்வாஹா | இந்த்ராய இதம் ந மம ||<br>
+        • ஓம் அக்னயே ஸ்வாஹா | அக்னயே இதம் ந மம ||<br>
+        • ஓம் ஸோமாய ஸ்வாஹா | ஸோமாய இதம் ந மம ||
+      </div>
+    </div>
+
+    <h3>தேவையான பொருட்கள் & செய்முறை</h3>
+    <div id="materialsAndSteps"></div>
+
+    <h3>பிரதான சங்கல்பம்</h3>
+    <div class="mantra-box" id="mainSankalpamBox"></div>
+
+    <h3>பிரதான ஹோம / பூஜை மந்திரங்கள்</h3>
+    <div class="mantra-box" id="mainMantraBox"></div>
+  </div>
+
+  <!-- Step 6: Poornahuthi & Completion -->
+  <div class="card" id="sec-niraivu">
+    <span class="section-badge">படி 6 • நிறைவுப் பகுதி</span>
+    <h2>பூர்ணாஹுதி, கலச அபிஷேகம் & ஆசீர்வாதம்</h2>
+    <div id="niraivuContent"></div>
+  </div>
+
+  <!-- Copyright Footer -->
+  <footer class="app-footer">
+    &copy; 2026 Krupa. All Rights Reserved.
+  </footer>
+</div>
+
+<nav class="bottom-nav">
+  <a href="#sec-magimai" class="nav-pill">1. மகிமை</a>
+  <a href="#sec-ganapathy" class="nav-pill">2. கணபதி (16)</a>
+  <a href="#sec-kalasam" class="nav-pill">3. கலசம் & 108</a>
+  <a href="#sec-suktam" class="nav-pill">4. சூக்தம் / ருத்ரம்</a>
+  <a href="#sec-main" class="nav-pill">5. பிரதான ஹோமம்</a>
+  <a href="#sec-niraivu" class="nav-pill">6. பூர்ணாஹுதி</a>
+</nav>
+
+<script>
+const SAMVATSARAS = [
+  "ப்ரபவ", "விபவ", "சுக்ல", "ப்ரமோதூத", "ப்ரஜோத்பத்தி", "ஆங்கீரச", "ஸ்ரீமுக", "பவ", "யுவ", "தாது",
+  "ஈச்வர", "வெகுதான்ய", "ப்ரமாதி", "விக்ரம", "விஷு", "சித்ரபானு", "சுபானு", "தாரண", "பார்த்திப", "விய",
+  "ஸர்வஜித்", "ஸர்வதாரி", "விரோதி", "விக்ருதி", "கர", "நந்தன", "விஜய", "ஜய", "மன்மத", "துர்முகி",
+  "ஹேவிளம்பி", "விளம்பி", "விகாரி", "சார்வரி", "பிலவ", "சுபகிருது", "சோபகிருது", "குரோதி", "விசுவாவசு", "பராபவ",
+  "பிலவங்க", "கீலக", "சௌமிய", "சாதாரண", "விரோதிகிருது", "பரிதாபி", "பிரமாதீச", "ஆனந்த", "ராட்சச", "நள",
+  "பிங்கள", "காளயுக்தி", "சித்தார்த்தி", "ரௌத்ரி", "துன்மதி", "துந்துபி", "ருத்ரோத்காரி", "ரக்தாக்ஷி", "குரோதன", "அக்ஷய"
+];
+
+const VASARAM_MAP = [
+  "பானு வாஸர: பானு வாஸர யுக்தாயாம்",
+  "இந்து வாஸர: இந்து வாஸர யுக்தாயாம்",
+  "பௌம வாஸர: பௌம வாஸர யுக்தாயாம்",
+  "ஸௌம்ய வாஸர: ஸௌம்ய வாஸர யுக்தாயாம்",
+  "குரு வாஸர: குரு வாஸர யுக்தாயாம்",
+  "ப்ருகு வாஸர: ப்ருகு வாஸர யுக்தாயாம்",
+  "ஸ்திர வாஸர: ஸ்திர வாஸர யுக்தாயாம்"
+];
+
+const THITHI_NAMES = [
+  "ப்ரதமாயாம்", "த்விதீயாயாம்", "த்ருதீயாயாம்", "சதுர்த்தியாம்", "பஞ்சம்யாம்",
+  "ஷஷ்ட்யாம்", "ஸப்தம்யாம்", "அஷ்டம்யாம்", "நவம்யாம்", "தசம்யாம்",
+  "ஏகாதச்யாம்", "த்வாதச்யாம்", "த்ரயோதச்யாம்", "சதுர்தச்யாம்", "பௌர்ணமாஸ்யாம்",
+  "ப்ரதமாயாம்", "த்விதீயாயாம்", "த்ருதீயாயாம்", "சதுர்த்தியாம்", "பஞ்சம்யாம்",
+  "ஷஷ்ட்யாம்", "ஸப்தம்யாம்", "அஷ்டம்யாம்", "நவம்யாம்", "தசம்யாம்",
+  "ஏகாதச்யாம்", "த்வாதச்யாம்", "த்ரயோதச்யாம்", "சதுர்தச்யாம்", "அமாவாஸ்யாயாம்"
+];
+
+// 27 Nakshatras: Sanskrit Name (Usual Tamil Name)
+const NAKSHATRA_NAMES = [
+  "அச்வினீ (அஸ்வினி)",
+  "அபபரணீ (பரணி)",
+  "க்ருத்திகா (கார்த்திகை)",
+  "ரோஹிணீ (ரோகிணி)",
+  "ம்ருகசீர்ஷ (மிருகசீரிஷம்)",
+  "ஆர்த்ரா (திருவாதிரை)",
+  "புனர்வஸு (புனர்பூசம்)",
+  "புஷ்ய (பூசம்)",
+  "ஆச்லேஷா (ஆயில்யம்)",
+  "மகா (மகம்)",
+  "பூர்வபல்குனீ (பூரம்)",
+  "உத்தரபல்குனீ (உத்திரம்)",
+  "ஹஸ்த (அஸ்தம்)",
+  "சித்ரா (சித்திரை)",
+  "ஸ்வாதீ (சுவாதி)",
+  "விசாகா (விசாகம்)",
+  "அனுராதா (அனுஷம்)",
+  "ஜ்யேஷ்டா (கேட்டை)",
+  "மூலா (மூலம்)",
+  "பூர்வாஷாடா (பூராடம்)",
+  "உத்தராஷாடா (உத்திராடம்)",
+  "ச்ரவண (திருவோணம்)",
+  "ச்ரவிஷ்டா (அவிட்டம்)",
+  "சதபிஷக் (சதயம்)",
+  "பூர்வப்ரோஷ்டபதா (பூரட்டாதி)",
+  "உத்தரப்ரோஷ்டபதா (உத்திரட்டாதி)",
+  "ரேவதீ (ரேவதி)"
+];
+
+const YOGA_NAMES = [
+  "விஷ்கம்ப", "ப்ரீதி", "ஆயுஷ்மான்", "ஸௌபாக்ய", "சோபன", "அதிகண்ட", "ஸுகர்மா", "த்ருதி", "சூல",
+  "கண்ட", "வ்ருத்தி", "த்ருவ", "வ்யாகாத", "ஹர்ஷண", "வஜ்ர", "ஸித்தி", "வ்யதீபாத", "வரீயான்",
+  "பரிக", "சிவ", "ஸித்த", "ஸாத்ய", "சுப", "சுக்ல", "ப்ரஹ்ம", "ஐந்த்ர", "வைத்ருதி"
+];
+
+const KARANA_NAMES = [
+  "பவ", "பாலவ", "கௌலவ", "தைதுல", "கரஜ", "வணிஜ", "பத்ரா", "சகுனி", "சதுஷ்பாத", "நாகவ", "கிம்ஸ்துக்ன"
+];
+
+const TAMIL_MONTHS_INFO = [
+  { name: "மேஷ (சித்திரை)", ruthu: "வஸந்த", ayanam: "உத்தராயனே", start: [4, 14] },
+  { name: "வ்ருஷப (வைகாசி)", ruthu: "வஸந்த", ayanam: "உத்தராயனே", start: [5, 15] },
+  { name: "மிதுன (ஆனி)", ruthu: "க்ரீஷ்ம", ayanam: "உத்தராயனே", start: [6, 15] },
+  { name: "கடக (ஆடி)", ruthu: "க்ரீஷ்ம", ayanam: "தக்ஷிணாயனே", start: [7, 17] },
+  { name: "ஸிம்ஹ (ஆவணி)", ruthu: "வர்ஷ", ayanam: "தக்ஷிணாயனே", start: [8, 17] },
+  { name: "கன்யா (புரட்டாசி)", ruthu: "வர்ஷ", ayanam: "தக்ஷிணாயனே", start: [9, 17] },
+  { name: "துலா (ஐப்பசி)", ruthu: "சரத்", ayanam: "தக்ஷிணாயனே", start: [10, 18] },
+  { name: "வ்ருச்சிக (கார்த்திகை)", ruthu: "சரத்", ayanam: "தக்ஷிணாயனே", start: [11, 17] },
+  { name: "தனுர் (மார்கழி)", ruthu: "ஹேமந்த", ayanam: "தக்ஷிணாயனே", start: [12, 16] },
+  { name: "மகர (தை)", ruthu: "ஹேமந்த", ayanam: "உத்தராயனே", start: [1, 15] },
+  { name: "கும்ப (மாசி)", ruthu: "சிசிர", ayanam: "உத்தராயனே", start: [2, 13] },
+  { name: "மீன (பங்குனி)", ruthu: "சிசிர", ayanam: "உத்தராயனே", start: [3, 15] }
+];
+
+const ASHTOTHARAM_LISTS = {
+  shiva: [
+    "சிவாய", "மஹேச்வராய", "சம்பவே", "பினாகினே", "சசிசேகராய", "வாமதேவாய", "விரூபாக்ஷாய", "கபர்தினே", "நீலலோஹிதாய", "சங்கராய",
+    "சூலபாணயே", "கட்வாங்கினே", "விஷ்ணுவல்லபாய", "சிபிவிஷ்டாய", "அம்பிகாநாதாய", "ஸ்ரீகண்டாய", "பக்தவத்ஸலாய", "பவாய", "சர்வாய", "த்ரிலோகேசாய",
+    "சிதிகண்டாய", "சிவாப்ரியாய", "உக்ராய", "கபாலினே", "காமாரயே", "அந்தகாஸுரஸூதனாய", "கங்காதராய", "லலாடாக்ஷாய", "காலகாலாய", "க்ருபாநிதயே",
+    "பீமாய", "பரசுஹஸ்தாய", "ம்ருகபாணயே", "ஜடாதராய", "கைலாஸவாஸினே", "கவசினே", "கடோராய", "த்ரிபுராந்தகாய", "வ்ருஷாங்காய", "வ்ருஷபாரூடாய",
+    "பஸ்மோத்தூளிதவிக்ரஹாய", "ஸாமப்ரியாய", "ஸ்வரமயாய", "த்ரயீமூர்த்தயே", "அனீச்வராய", "ஸர்வஜ்ஞாய", "பரமாத்மனே", "ஸோமஸூர்யாக்னிலோசனாய", "ஹவிஷே", "யஜ்ஞமயாய",
+    "ஸோமாய", "பஞ்சவக்த்ராய", "ஸதாசிவாய", "விச்வேச்வராய", "வீரபத்ராய", "கணநாதாய", "ப்ரஜாபதயே", "ஹிரண்யரேதஸே", "துர்தர்ஷாய", "கிரீசாய",
+    "கிரிசாய", "அனகாய", "புஜங்கபூஷணாய", "பர்காய", "கிரிதன்வனே", "கிரிப்ரியாய", "க்ருத்திவாஸஸே", "புராராதயே", "பகவதே", "ப்ரமதாதிபாய",
+    "ம்ருத்யுஞ்ஜயாய", "ஸூக்ஷ்மதனவே", "ஜகத்வ்யாபினே", "ஜகத்குரவே", "வ்யோமகேசாய", "மஹாஸேனஜனகாய", "சாருவிக்ரமாய", "ருத்ராய", "பூதபதயே", "ஸ்தாணவே",
+    "அஹிர்புத்ன்யாய", "திகம்பராய", "அஷ்டமூர்த்தயே", "அனேகாத்மனே", "ஸாத்விகாய", "சுத்தவிக்ரஹாய", "சாச்வதாய", "கண்டபரசவே", "அஜாய", "பாசவிமோசகாய",
+    "ம்ருடாய", "பசுபதயே", "தேவாய", "மஹாதேவாய", "அவ்யயாய", "ஹரயே", "பூஷதந்தபிதே", "அவ்யக்ராய", "தக்ஷாத்வரஹராய", "ஹராய",
+    "பகநேத்ரபிதே", "அவ்யக்தாய", "ஸஹஸ்ராக்ஷாய", "ஸஹஸ்ரபதே", "அபவர்க்கப்ரதாய", "அனந்தாய", "தாரகாய", "பரமேச்வராய"
+  ],
+  durga: [
+    "துர்காயை", "சிவாயை", "மஹாலக்ஷ்ம்யை", "மஹாகௌர்யை", "சண்டிகாயை", "ஸர்வஜ்ஞாயை", "ஸர்வலோகேசாயை", "ஸர்வகர்மபலப்ரதாயை", "ஸர்வதீர்த்தமய்யை", "புண்யாயை",
+    "தேவயோனயே", "அயோனிஜாயை", "பூமிஜாயை", "நிர்குணாயை", "ஆதாரசக்த்யை", "அனீச்வர்யை", "நிர்க்குணாயை", "நிரஹங்காராயை", "ஸர்வகர்வவிமர்தின்யை", "ஸர்வலோகப்ரியாயை",
+    "வாண்யை", "ஸர்வவித்யாதிதேவதாயை", "பார்வத்யை", "தேவமாத்ரே", "வனீசாயை", "விந்த்யவாஸின்யை", "தேஜோவத்யை", "மஹாமாத்ரே", "கோடிஸூர்யஸமப்ரபாயை", "தேவதாயை",
+    "வஹ்னிரூபாயை", "ஸதேஜஸே", "வர்ணரூபிண்யை", "குணாச்ரயாயை", "குணமத்யாயை", "குணத்ரயவிவர்ஜிதாயை", "கர்மஜ்ஞானப்ரதாயை", "காந்தாயை", "ஸர்வஸம்ஹாரகாரிண்யை", "தர்மஜ்ஞானாயை",
+    "தர்மநிஷ்டாயை", "ஸர்வகர்மவிவர்ஜிதாயை", "காமாக்ஷ்யை", "காமஸம்ஹர்த்ர்யை", "காமக்ரோதவிவர்ஜிதாயை", "சாங்கர்யை", "சாம்பவ்யை", "சாந்தாயை", "சந்த்ரஸூர்யாக்னிலோசனாயை", "ஸுஜயாயை",
+    "ஜயபூமிஷ்டாயை", "ஜாஹ்னவ்யை", "ஜனபூஜிதாயை", "சாஸ்த்ராயை", "சாஸ்த்ரமய்யை", "நித்யாயை", "சுபாயை", "சந்த்ரார்த்தமஸ்தகாயை", "பாரத்யை", "ப்ராமர்யை",
+    "கல்பாயை", "கராள்யை", "க்ருஷ்ணபிங்களாயை", "ப்ராஹ்ம்யை", "நாராயண்யை", "ரௌத்ர்யை", "சந்த்ராம்ருதபரிஸ்ருதாயை", "ஜ்யேஷ்டாயை", "இந்திராயை", "மஹாமாயாயை",
+    "ஜகத்ஸ்ருஷ்ட்யாதிகாரிண்யை", "ப்ரஹ்மாண்டகோடிஸம்ஸ்தானாயை", "காமின்யை", "கமலாலயாயை", "காத்யாயன்யை", "கலாதீதாயை", "காலஸம்ஹாரகாரிண்யை", "யோகநிஷ்டாயை", "யோகிகம்யாயை", "யோகித்யேயாயை",
+    "தபஸ்வின்யை", "ஜ்ஞானரூபாயை", "நிராகாராயை", "பக்தாபீஷ்டபலப்ரதாயை", "பூதாத்மிகாயை", "பூதமாத்ரே", "பூதேசாயை", "பூததாரிண்யை", "ஸ்வதாயை", "நாரீமத்யகதாயை",
+    "ஷடாதாராதிவர்த்தின்யை", "மோஹிதாம்சுபவாயை", "சுப்ராயை", "ஸூக்ஷ்மாயை", "மாத்ராயை", "நிராலஸாயை", "நிம்னகாயை", "நீலஸங்காஸாயை", "நித்யானந்தாயை", "ஹராயை",
+    "பராயை", "ஸர்வஜ்ஞானப்ரதாயை", "அனந்தாயை", "ஸத்யாயை", "துர்லபரூபிண்யை", "ஸரஸ்வத்யை", "ஸர்வகதாயை", "ஸர்வாபீஷ்டப்ரதாயின்யை"
+  ],
+  vishnu: [
+    "விஷ்ணவே", "ஜிஷ்ணவே", "வஷட்காராய", "தேவதேவாய", "வ்ருஷாகபயே", "தாமோதராய", "தீனபந்தவே", "ஆதிதேவாய", "அதிதேஸ்ஸுதாய", "புண்டரீகாய",
+    "பரானந்தாய", "பரமாத்மனே", "பராத்மஜாய", "பரஸ்மைபதாய", "பரமேஷ்டினே", "பூர்ணாய", "புண்யாய", "புண்யகீர்த்தயே", "புராணாய", "புருஷோத்தமாய",
+    "பத்மநாபாய", "பத்மயோனயே", "ப்ரஜாபதயே", "ப்ரியப்ரதாய", "ப்ரஹ்மண்யாய", "ப்ராஹ்மணப்ரியாய", "பூப்ருதே", "பூதபாவனாய", "பூதாத்மனே", "பூதக்ருதே",
+    "பூதாய", "பூதபவ்யபவத்ரபவே", "பக்தவத்சலாய", "பக்தாய", "பக்திப்ரதாய", "பக்திமதே", "பக்திப்ரியாய", "பக்தபந்தவே", "பக்தகல்யಾಣதாயகாய", "கேசவாய",
+    "நாராயணாய", "மாதவாய", "கோவிந்தாய", "மதுஸூதனாய", "த்ரிவிக்ரமாய", "வாமனாய", "ஸ்ரீதராய", "ஹ்ருஷீகேசாய", "ஸங்கர்ஷணாய", "வாஸுதேவாய",
+    "ப்ரத்யும்னாய", "அனிருத்தாய", "புருஷாய", "அதோக்ஷஜாய", "நாரஸிம்ஹாய", "அச்யுதாய", "ஜனார்தனாய", "உபேந்த்ராய", "ஹரயே", "ஸ்ரீக்ருஷ்ணாய",
+    "கருடத்வஜாய", "கமலாபதயே", "வைகுண்டாய", "விச்வரூபாய", "விச்வபாவனாய", "விச்வாத்மனே", "விச்வஸாக்ஷிணே", "விச்வமூர்த்தயே", "விச்வேச்வராய", "ஸர்வஜ்ஞாய",
+    "ஸர்வகாய", "ஸர்வேசாய", "ஸர்வகாரணாய", "ஸர்வலோகபதயே", "ஸர்வமங்களாய", "ஸர்வபூதஹிதாய", "ஸனாதனாய", "சதுர்புஜாய", "சக்ரதராய", "சங்கசக்ரகதாதராய",
+    "சார்ங்கபாணயே", "நந்தகினே", "பீதாம்பராய", "வனமாலினே", "ஸ்ரீவத்ஸவக்ஷஸே", "கௌஸ்துபபூஷணாய", "க்ஷீராப்திசாயினே", "சேஷசாயினே", "யஜ்ஞபுருஷாய", "யஜ்ஞேசாய",
+    "யஜ்ஞபாவனாய", "முகுந்தாய", "முராரயே", "மத்ஸ்யாய", "கூர்மாய", "வராஹாய", "ராமாய", "பலராமாய", "கல்கினே", "தயானிதயே",
+    "கருணாகராய", "பாவனாய", "பரமாய", "அவ்யயாய", "அனந்தாய", "அமலாய", "அம்ருதாய", "ஸ்ரீமந்நாராயணாய"
+  ],
+  lakshmi: [
+    "ப்ரக்ருத்யை", "விக்ருத்யை", "வித்யாயை", "ஸர்வபூதஹிதப்ரதாயை", "ச்ரத்தாயை", "விபூத்யை", "ஸுரப்யை", "பரமாத்மிகாயை", "வாசே", "பத்மாலயாயை",
+    "பத்மாயை", "சுசயே", "ஸ்வாஹாயை", "ஸ்வதாயை", "ஸுதாயை", "தன்யாயை", "ஹிரண்மய்யை", "லக்ஷ்ம்யை", "நித்யபுஷ்டாயை", "விபாவர்யை",
+    "அதித்யை", "தித்யை", "தீபாயை", "வஸுதாயை", "வஸுதாரிண்யை", "கமலாயை", "காந்தாயை", "காமாக்ஷ்யை", "க்ரோதஸம்பவாயை", "அனுக்ரஹப்ரதாயை",
+    "புத்தயே", "அனகாயை", "ஹரிவல்லபாயை", "அசோகாயை", "அம்ருதாயை", "தீப்தாயை", "லோகசோகவிநாசின்யை", "தர்மநிலயாயை", "கருணாயை", "லோகமாத்ரே",
+    "பத்மப்ரியாயை", "பத்மஹஸ்தாயை", "பத்மாக்ஷ்யை", "பத்மஸுந்தர்யை", "பத்மோத்பவாயை", "பத்மமுக்யை", "பத்மநாபப்ரியாயை", "ரமாயை", "பத்மமாலாதராயை", "தேவ்யை",
+    "பத்மின்யை", "பத்மகந்தின்யை", "புண்யகந்தாயை", "ஸுப்ரஸன்னாயை", "ப்ரஸாதாபிமுக்யை", "ப்ரபாயை", "சந்த்ரவதனாயை", "சந்த்ராயை", "சந்த்ரஸஹோதர்யை", "சதுர்புஜாயை",
+    "சந்த்ரரூபாயை", "இந்திராயை", "இந்துசீதலாயை", "ஆஹ்லாதஜனன்யை", "புஷ்ட்யை", "சிவாயை", "சிவகர்யை", "ஸத்யை", "விமலாயை", "விச்வஜனன்யை",
+    "துஷ்ட்யை", "தாரித்ர்யநாசின்யை", "ப்ரீதிபுஷ்கரிண்யை", "சாந்தாயை", "சுக்லமால்யாம்பராயை", "ச்ரியை", "பாஸ்கர்யை", "பில்வநிலயாயை", "வராரோஹாயை", "யசஸ்வின்யை",
+    "வஸுந்தராயை", "உதாராங்காயை", "ஹரிண்யை", "ஹேமமாலின்யை", "தனதான்யகர்யை", "ஸித்தயே", "ஸ்த்ரைணஸௌம்யாயை", "சுபப்ரதாயை", "ந்ருபவேச்மகதானந்தாயை", "வரலக்ஷ்ம்யை",
+    "வஸுப்ரதாயை", "சுபாயை", "ஹிரண்யப்ராகாராயை", "ஸமுத்ரதனயாயை", "ஜயாயை", "மங்களாதேவ்யை", "விஷ்ணுவக்ஷஸ்ஸ்தலஸ்திதாயை", "விஷ்ணுபத்ன்யை", "ப்ரஸன்னாக்ஷ்யை", "நாராயணஸமாச்ரிதாயை",
+    "தாரித்ர்யத்வம்ஸின்யை", "தேவ்யை", "ஸர்வோபத்ரவவாரிண்யை", "நவதுர்க்காயை", "மஹாகாள்யை", "ப்ரஹ்மவிஷ்ணுசிவாத்மிகாயை", "த்ரிகாலஜ்ஞானஸம்பன்னாயை", "புவனேச்வர்யை"
+  ],
+  muruga: [
+    "ஸ்கந்தாய", "குஹாய", "ஷண்முகாய", "பாலநேத்ரஸுதாய", "ப்ரபவே", "பிங்களாய", "க்ருத்திகாஸூனவே", "சிகிவாஹனாய", "த்விஷட்புஜாய", "த்விஷண்ணேத்ராய",
+    "சக்திதராய", "பிசிதாசப்ரபஞ்ஜனாய", "தாரகாஸுரஸம்ஹர்த்ரே", "ரக்ஷோபலவிமர்தனாய", "மத்தாய", "ப்ரமத்தாய", "உன்மத்தாய", "ஸுரஸைன்யஸுரக்ஷகாய", "தேவஸேனாபதயே", "ப்ராஜ்ஞாய",
+    "க்ருபாலவே", "பக்தவத்ஸலாய", "உமாஸுதாய", "சக்திதராய", "குமாராய", "க்ரௌஞ்சதாரணாய", "ஸேனான்யே", "அக்னிஜன்மனே", "விசாகாய", "சங்கராத்மஜாய",
+    "சிவஸ்வாமினே", "கணஸ்வாமினே", "ஸர்வஸ்வாமினே", "ஸனாதனாய", "அனந்தசக்தயே", "அக்ஷோப்யாய", "பார்வதீப்ரியநந்தனாய", "கங்காஸுதாய", "சரோத்பூதாய", "ஆஹூதாய",
+    "பாவகாத்மஜாய", "ஜ்ரும்பாய", "ப்ரஜ்ரும்பாய", "உஜ்ஜ்ரும்பாய", "கமலாஸனஸம்ஸ்துதாய", "ஏகவர்ணாய", "த்விவர்ணாய", "த்ரிவர்ணாய", "ஸுமனோஹராய", "சதுர்வர்ணாய",
+    "பஞ்சவர்ணாய", "ப்ரஜாபதயே", "அஹஸ்பதயே", "அக்னிகர்ப்பாய", "சமீகர்ப்பாய", "விச்வரேதஸே", "ஸுராரிக்னே", "ஹரித்வர்ணாய", "சுபகராய", "வஸுமதே",
+    "வடுவேஷப்ருதே", "பூஷ்ணே", "கபஸ்தயே", "கஹனாய", "சந்த்ரவர்ணாய", "கலாதராய", "மாயாதராய", "மஹாமாயினே", "கைவல்யாய", "சங்கராத்மஜாய",
+    "விச்வயோனயே", "அமேயாத்மனே", "தேஜோநிதயே", "அனாமயாய", "பரமேஷ்டினே", "பரஸ்மைப்ரஹ்மணே", "வேதகர்ப்பாய", "விராட்ஸுதாய", "புளிந்தகன்யாபர்த்ரே", "மஹாஸாரஸ்வதாவ்ருதாய",
+    "ஆச்ரிதாகிலதாத்ரே", "சோரக்னாய", "ரோகநாசனாய", "அனந்தமூர்த்தயே", "ஆனந்தாய", "சிகிண்டித்வஜகேதனாய", "டம்பாய", "பரமடம்பாய", "மஹாடம்பாய", "வ்ருஷாகபயே",
+    "காரணோபாத்ததேஹாய", "காரணாதீதவிக்ரஹாய", "அனீச்வராய", "அம்ருதாய", "ப்ராணாய", "ப்ராணாயாமபராயணாய", "விருத்தஹந்த்ரே", "வீரக்னாய", "ரக்தச்யாமகளாய", "மஹதே",
+    "ஸுப்ரஹ்மண்யாய", "குஹப்ரீதாய", "ப்ரஹ்மண்யாய", "ப்ராஹ்மணப்ரியாய", "வேதவேத்யாய", "அக்ஷயபலப்ரதாய", "வல்லீதேவஸேனாஸமேதாய", "ஸ்ரீ ஸுப்ரஹ்மண்ய ஸ்வாமினே"
+  ]
+};
+
+const SUKTAM_DATA = {
+  purusha: {
+    title: "புருஷ சூக்தம் (Purusha Suktam - ரிக் வேதம்)",
+    steps: "<strong>பாராயண முறை:</strong> கலச பூஜை மற்றும் ஹோமத்தின் போது 16 ரிக்குகளைக் கொண்ட புருஷ சூக்தத்தைச் சொல்வது சகல யாக பலன்களையும், பாவ நிவர்த்தியையும், சதாபிஷேக/சஷ்டியப்த பூர்த்தி கலசங்களுக்குப் பூரண தெய்வீக சக்தியையும் தரும்.",
+    verses: `
+      <div class="verse-block"><strong>1.</strong> ஓம் தச்சம் யோராவ்ருணீமஹே | காதும் யஜ்ஞாய | காதும் யஜ்ஞபதயே | தைவீ: ஸ்வஸ்திரஸ்து ந: | ஸ்வஸ்திர்மானுஷேப்ய: | ஊர்த்வம் ஜிகாது பேஷஜம் | சம் நோ அஸ்து த்விபதே | சம் சதுஷ்பதே || ஓம் சாந்தி: சாந்தி: சாந்தி: ||</div>
+      <div class="verse-block"><strong>2.</strong> ஸஹஸ்ரசீர்ஷா புருஷ: | ஸஹஸ்ராக்ஷ: ஸஹஸ்ரபாத் | ஸ பூமிம் விச்வதோ வ்ருத்வா | அத்யதிஷ்டத்தசாங்குலம் ||</div>
+      <div class="verse-block"><strong>3.</strong> புருஷ ஏவேதகும் ஸர்வம் | யத்பூதம் யச்ச பவ்யம் | உதாம்ருதத்வஸ்யேசான: | யதன்னேனாதிரோஹதி ||</div>
+      <div class="verse-block"><strong>4.</strong> ஏதாவானஸ்ய மஹிமா | அதோ ஜ்யாயாகுச்ச பூருஷ: | பாதோ(அ)ஸ்ய விச்வா பூதானி | த்ரிபாதஸ்யாம்ருதம் திவி ||</div>
+      <div class="verse-block"><strong>5.</strong> த்ரிபாதூர்த்வ உதைத்புருஷ: | பாதோ(அ)ஸ்யேஹாபவாத்புன: | ததோ விஷ் வங்வ்யக்ராமத் | ஸாசனானசனே அபி ||</div>
+      <div class="verse-block"><strong>6.</strong> தஸ்மாத்விராடஜாயத | விராஜோ அதி பூருஷ: | ஸ ஜாதோ அத்யரிச்யத | பச்சாத்பூமிமதோ புர: ||</div>
+      <div class="verse-block"><strong>7.</strong> யத்புருஷேண ஹவிஷா | தேவா யஜ்ஞமதன்வத | வஸந்தோ அஸ்யாஸீதாஜ்யம் | க்ரீஷ்ம இத்மச்சரத்தவி: ||</div>
+      <div class="verse-block"><strong>8.</strong> ஸப்தாஸ்யாஸன்பரிதய: | த்ரி: ஸப்த ஸமித: க்ருதா: | தேவா யத்யஜ்ஞம் தன்வானா: | அபத்னன்புருஷம் பசும் ||</div>
+      <div class="verse-block"><strong>9.</strong> தம் யஜ்ஞம் பர்ஹிஷி ப்ரௌக்ஷன் | புருஷம் ஜாதமக்ரத: | தேன தேவா அயஜந்த | ஸாத்யா ருஷயச்ச யே ||</div>
+      <div class="verse-block"><strong>10.</strong> தஸ்மாத்யஜ்ஞாத்ஸர்வஹுத: | ஸம்ப்ருதம் ப்ருஷதாஜ்யம் | பசூகும்ஸ்தாகுச்சக்ரே வாயவ்யான் | ஆரண்யான்க்ராம்யாச்ச யே ||</div>
+      <div class="verse-block"><strong>11.</strong> தஸ்மாத்யஜ்ஞாத்ஸர்வஹுத: | ருச: ஸாமானி ஜஜ்ஞிரே | சந்தாகும்ஸி ஜஜ்ஞிரே தஸ்மாத் | யஜுஸ்தஸ்மாதஜாயத ||</div>
+      <div class="verse-block"><strong>12.</strong> தஸ்மாதச்வா அஜாயந்த | யே கே சோபயாதத: | காவோ ஹ ஜஜ்ஞிரே தஸ்மாத் | தஸ்மாஜ்ஜாதா அஜாவய: ||</div>
+      <div class="verse-block"><strong>13.</strong> யத்புருஷம் வ்யதது: | கதிதா வ்யகல்பயன் | முகம் கிமஸ்ய கௌ பாஹூ | காவூரூ பாதாவுச்யேதே ||</div>
+      <div class="verse-block"><strong>14.</strong> ப்ராஹ்மணோ(அ)ஸ்ய முகமாஸீத் | பாஹூ ராஜன்ய: க்ருத: | ஊரூ ததஸ்ய யத்வைச்ய: | பத்யாகும் சூத்ரோ அஜாயத ||</div>
+      <div class="verse-block"><strong>15.</strong> சந்த்ரமா மனஸோ ஜாத: | சக்ஷோ: ஸூர்யோ அஜாயத | முகாதிந்த்ரச்சாக்னிச்ச | ப்ராணாத்வாயுரஜாயத ||</div>
+      <div class="verse-block"><strong>16.</strong> நாப்யா ஆஸீதந்தரிக்ஷம் | சீர்ஷ்ணோ த்யௌ: ஸமவர்த்தத | பத்யாம் பூமிர்திச: ச்ரோத்ராத் | ததா லோகாகுமாகல்பயன் ||</div>
+      <div class="verse-block"><strong>பலச்ருதி:</strong> வேதாஹமேதம் புருஷம் மஹாந்தம் | ஆதித்யவர்ணம் தமஸஸ்து பாரே | ஸர்வாணி ரூபாணி விசித்ய தீர: | நாமானி க்ருத்வா(அ)பிவதன்யதாஸ்தே || யஜ்ஞேன யஜ்ஞமயஜந்த தேவா: | தானி தர்மாணி ப்ரதமான்யாஸன் | தே ஹ நாகம் மஹிமான: ஸசந்தே | யத்ர பூர்வே ஸாத்யா: ஸந்தி தேவா: ||</div>
+    `
+  },
+  sri: {
+    title: "ஸ்ரீ சூக்தம் (Sri Suktam - மஹாலக்ஷ்மி கடாட்சம்)",
+    steps: "<strong>பாராயண முறை:</strong> மஹாலக்ஷ்மி ஹோமம், வரலக்ஷ்மி விரதம், கதம்ப ஹோமம் மற்றும் கலச பூஜையில் செல்வ வளம் மற்றும் அஷ்ட ஐஸ்வர்யங்கள் பெருக இதனைப் பாராயணம் செய்யவும்.",
+    verses: `
+      <div class="verse-block"><strong>1.</strong> ஓம் ஹிரண்யவர்ணாம் ஹரிணீம் ஸுவர்ணரஜதஸ்ரஜாம் | சந்த்ராம் ஹிரண்மயீம் லக்ஷ்மீம் ஜாதவேதோ ம ஆவஹ ||</div>
+      <div class="verse-block"><strong>2.</strong> தாம் ம ஆவஹ ஜாதவேதோ லக்ஷ்மீமனபகாமினீம் | யஸ்யாம் ஹிரண்யம் விந்தேயம் காமச்வம் புருஷானஹம் ||</div>
+      <div class="verse-block"><strong>3.</strong> அச்வபூர்வாம் ரதமத்யாம் ஹஸ்தினாதப்ரபோதினீம் | ச்ரியம் தேவீமுபஹ்வயே ஸ்ரீர்மா தேவீர்ஜுஷதாம் ||</div>
+      <div class="verse-block"><strong>4.</strong> காம் ஸோஸ்மிதாம் ஹிரண்யப்ராகாராமார்த்ராம் ஜ்வலந்தீம் த்ருப்தாம் தர்ப்பயந்தீம் | பத்மே ஸ்திதாம் பத்மவர்ணாம் தாமிஹோபஹ்வயே ச்ரியம் ||</div>
+      <div class="verse-block"><strong>5.</strong> சந்த்ராம் ப்ரபாஸாம் யசஸா ஜ்வலந்தீம் ச்ரியம் லோகே தேவஜுஷ்டாமுதாராம் | தாம் பத்மினீமீம் சரணமஹம் ப்ரபத்யே(அ)லக்ஷ்மீர்மே நச்யதாம் த்வாம் வ்ருணே ||</div>
+      <div class="verse-block"><strong>6.</strong> ஆதித்யவர்ணே தபஸோ(அ)திஜாதோ வனஸ்பதிஸ்தவ வ்ருக்ஷோ(அ)த பில்வ: | தஸ்ய பலானி தபஸா நுதந்து மாயாந்தராயாச்ச பாஹ்யா அலக்ஷ்மீ: ||</div>
+      <div class="verse-block"><strong>7.</strong> உபைது மாம் தேவஸக: கீர்த்திச்ச மணினா ஸஹ | ப்ராதுர்பூதோ(அ)ஸ்மி ராஷ்ட்ரே(அ)ஸ்மின் கீர்த்திம்ருத்திம் ததாது மே ||</div>
+      <div class="verse-block"><strong>8.</strong> க்ஷுத்பிபாஸாமலாம் ஜ்யேஷ்டாமலக்ஷ்மீம் நாசயாம்யஹம் | அபூதிமஸம்ருத்திம் ச ஸர்வாம் நிர்ணுத மே க்ருஹாத் ||</div>
+      <div class="verse-block"><strong>9.</strong> கந்தத்வாராம் துராதர்ஷாம் நித்யபுஷ்டாம் கரீஷிணீம் | ஈச்வரீகும் ஸர்வபூதானாம் தாமிஹோபஹ்வயே ச்ரியம் ||</div>
+      <div class="verse-block"><strong>10.</strong> மனஸ: காமமாகூதிம் வாச: ஸத்யமசீமஹி | பசூனாம் ரூபமன்னஸ்ய மயி ஸ்ரீ: ச்ரயதாம் யச: ||</div>
+      <div class="verse-block"><strong>11-15:</strong> கர்தமேன ப்ரஜாபூதா மயி ஸம்பவ கர்தம | ச்ரியம் வாஸய மே குலே மாதரம் பத்மமாலினீம் || ஆப: ஸ்ருஜந்து ஸ்னிக்தானி சிக்லீத வஸ மே க்ருஹே | நி ச தேவீம் மாதரம் ச்ரியம் வாஸய மே குலே || பத்மப்ரியே பத்மினி பத்மஹஸ்தே பத்மாலயே பத்மதலாயதாக்ஷி | விச்வப்ரியே விஷ்ணுமனோ(அ)னுகூலே த்வத்பாதபத்மம் மயி ஸன்னிதத்ஸ்வ || ஓம் மஹாதேவ்யை ச வித்மஹே விஷ்ணுபத்ன்யை ச தீமஹி | தன்னோ லக்ஷ்மீ: ப்ரசோதயாத் ||</div>
+    `
+  },
+  narayana: {
+    title: "நாராயண சூக்தம் (Narayana Suktam - யஜுர் வேதம்)",
+    steps: "<strong>பாராயண முறை:</strong> சுதர்சன ஹோமம், சதாபிஷேகம் மற்றும் விஷ்ணு பூஜைகளின் போது ஹ்ருதய கமலத்தில் பரமாத்மாவை தியானித்துப் பாராயணம் செய்ய வேண்டும்.",
+    verses: `
+      <div class="verse-block"><strong>1.</strong> ஓம் ஸஹஸ்ரசீர்ஷம் தேவம் விச்வாக்ஷம் விச்வசம்புவம் | விச்வம் நாராயணம் தேவமக்ஷரம் பரமம் பதம் ||</div>
+      <div class="verse-block"><strong>2.</strong> விச்வத: பரமான்னித்யம் விச்வம் நாராயணகும் ஹரிம் | விச்வமேவேதம் புருஷஸ்தத்விச்வமுபஜீவதி ||</div>
+      <div class="verse-block"><strong>3.</strong> பதிம் விச்வஸ்யாத்மேச்வரகும் சாச்வதகும் சிவமச்யுதம் | நாராயணம் மஹாஜ்ஞேயம் விச்வாத்மானம் பராயணம் ||</div>
+      <div class="verse-block"><strong>4.</strong> நாராயணபரோ ஜ்யோதிராத்மா நாராயண: பர: | நாராயணபரம் ப்ரஹ்ம தத்த்வம் நாராயண: பர: | நாராயணபரோ த்யாதா த்யானம் நாராயண: பர: ||</div>
+      <div class="verse-block"><strong>5.</strong> யச்ச கிஞ்சிஜ்ஜகத்ஸர்வம் த்ருச்யதே ச்ரூயதே(அ)பி வா | அந்தர்பஹிச்ச தத்ஸர்வம் வ்யாப்ய நாராயண: ஸ்தித: ||</div>
+      <div class="verse-block"><strong>6.</strong> அனந்தமவ்யயம் கவிகும் ஸமுத்ரே(அ)ந்தம் விச்வசம்புவம் | பத்மகோசப்ரதீகாசகும் ஹ்ருதயம் சாப்யதோமுகம் ||</div>
+      <div class="verse-block"><strong>7-11:</strong> அதோ நிஷ்ட்யா விதஸ்த்யாந்தே நாப்யாமுపరి திஷ்டதி | ஜ்வாலமாலாகுலம் பாதீ விச்வஸ்யாயதனம் மஹத் || ஸந்ததகும் சிராபிஸ்து லம்பத்யாகோசஸன்னிபம் | தஸ்யாந்தே ஸுஷிரகும் ஸூக்ஷ்மம் தஸ்மின்ஸர்வம் ப்ரதிஷ்டிதம் || தஸ்ய மத்யே மஹானக்னிர்விச்வார்ச்சிர்விச்வதோமுக: | ஸோ(அ)க்ரபுக்விபஜந்திஷ்டன்னாஹாரமஜர: கவி: || தஸ்யைவ சிகாயா மத்யே பரமாத்மா வ்யவஸ்தித: | ஸ ப்ரஹ்மா ஸ சிவ: ஸ ஹரி: ஸேந்த்ர: ஸோ(அ)க்ஷர: பரம: ஸ்வராட் || ஓம் நாராயணாய வித்மஹே வாஸுதேவாய தீமஹி | தன்னோ விஷ்ணு: ப்ரசோதயாத் ||</div>
+    `
+  },
+  durga: {
+    title: "துர்கா சூக்தம் (Durga Suktam - சகல துன்ப நிவாரணம்)",
+    steps: "<strong>பாராயண முறை:</strong> சத்ரு சம்ஹார ஹோமம், கதம்ப ஹோமம், கௌரி விரதம் மற்றும் திருஷ்டி/பய நிவாரண பூஜைகளில் பாராயணம் செய்யவும்.",
+    verses: `
+      <div class="verse-block"><strong>1.</strong> ஓம் ஜாதவேதஸே ஸுனவாம ஸோமமராதீயதோ நிதஹாதி வேத: | ஸ ந: பர்ஷததி துர்காணி விச்வா நாவேவ ஸிந்தும் துரிதாத்யக்னி: ||</div>
+      <div class="verse-block"><strong>2.</strong> தாமக்னிவர்ணாம் தபஸா ஜ்வலந்தீம் வைரோசனீம் கர்மபலேஷு ஜுஷ்டாம் | துர்காம் தேவீகும் சரணமஹம் ப்ரபத்யே ஸுதரஸி தரஸே நம: ||</div>
+      <div class="verse-block"><strong>3.</strong> அக்னே த்வம் பாரயா நவ்யோ அஸ்மான்ஸ்வஸ்திபிரதி துர்காணி விச்வா | பூச்ச ப்ருத்வீ பஹுலா ந உர்வீ பவா தோகாய தனயாய சம்யோ: ||</div>
+      <div class="verse-block"><strong>4.</strong> விச்வானி நோ துர்கஹா ஜாதவேத: ஸிந்தும் ந நாவா துரிதாதிபர்ஷி | அக்னே அத்ரிவன்மனஸா க்ருணானோ(அ)ஸ்மாகம் போத்யவிதா தனூனாம் ||</div>
+      <div class="verse-block"><strong>5.</strong> ப்ருதனாஜிதகும் ஸஹமானமுக்ரமக்னிகும் ஹுவேம பரமாத்ஸதஸ்தாத் | ஸ ந: பர்ஷததி துர்காணி விச்வா க்ஷாமத்தேவோ அதி துரிதாத்யக்னி: ||</div>
+      <div class="verse-block"><strong>6.</strong> ப்ரத்னோஷி கமீட்யோ அத்வரேஷு ஸனாச்ச ஹோதா நவ்யச்ச ஸத்ஸி | ஸ்வாஞ்சா(அ)க்னே தனுவம் பிப்ரயஸ்வாஸ்மப்யம் ச ஸௌபகமாயஜஸ்வ ||</div>
+      <div class="verse-block"><strong>7.</strong> கோபிர்துஷ்டமயுஜோ நிஷிக்தம் தவேந்த்ர விஷ்ணோரனுஸஞ்சரேம | நாகஸ்ய ப்ருஷ்டமபி ஸம்வஸானோ வைஷ்ணவீம் லோக இஹ மாதயந்தாம் || ஓம் காத்யாயனாய வித்மஹே கன்யாகுமாரி தீமஹி | தன்னோ துர்கி: ப்ரசோதயாத் ||</div>
+    `
+  },
+  ayushya: {
+    title: "ஆயுஷ்ய சூக்தம் (Ayushya Suktam - கூடுதல் சூக்தம்)",
+    steps: "<strong>பாராயண முறை:</strong> ஆயுஷ் ஹோமம், சஷ்டியப்த பூர்த்தி (60), பீமரத சாந்தி (70), சதாபிஷேகம் (80) மற்றும் பிறந்தநாள் பூஜைகளில் கலசத்தைத் தொட்டுக்கொண்டு பாராயணம் செய்யவும்.",
+    verses: `
+      <div class="verse-block"><strong>1.</strong> ஓம் யோ ப்ரஹ்மா ப்ரஹ்மண உஜ்ஜஹார ப்ராணைஸ்ஸிர: க்ருத்திவாஸா: பினாகீ | ஈசானோ தேவ: ஸ ந ஆயுர்ததாது தஸ்மை ஜுஹோமி ஹவிஷா க்ருதேன ||</div>
+      <div class="verse-block"><strong>2.</strong> விப்ராஜமான: ஸரிரஸ்ய மத்யாத் ரோசமானோ கர்மருசிர்ய ஆகாத் | ஸ ம்ருத்யுபாசானபனுத்ய கோரான் இஹாயுஷே ணோ க்ருதமத்து தேவ: ||</div>
+      <div class="verse-block"><strong>3.</strong> ப்ரஹ்மஜ்யோதிர்ப்ரஹ்மபத்னீஷு கர்ப்பம் யமாததாத் புருரூபம் ஜயந்தம் | ஸுவர்ணரம்பக்ரஹமர்க்கமர்ச்யம் தமாயுஷே வர்தயாமி க்ருதேன ||</div>
+      <div class="verse-block"><strong>4.</strong> ச்ரியம் லக்ஷ்மீமௌபலாமம்பிகாம் காம் ஷஷ்டீம் ச யாமேந்த்ரஸேனேத்யுதாஹு: | தாம் வித்யாம் ப்ரஹ்மயோனிகும் ஸரூபாம் இஹாயுஷே தர்பயாமி க்ருதேன ||</div>
+      <div class="verse-block"><strong>5.</strong> தாக்ஷாயண்ய: ஸர்வயோன்ய: ஸ யோன்ய: ஸஹஸ்ரசோ விச்வரூபா விரூபா: | ஸஸூனவ: ஸபதய: ஸயூத்யா ஆயுஷே ணோ க்ருதமிதம் ஜுஷந்தாம் ||</div>
+      <div class="verse-block"><strong>6.</strong> திவ்யா கணா பஹுரூபா: புராணா ஆயுச்சிதோ ந: ப்ரமத்னந்து வீராந் | தேப்யோ ஜுஹோமி பஹுதா க்ருதேன மா ந: ப்ரஜாகும் ரீரிஷோ மோத வீராந் ||</div>
+      <div class="verse-block"><strong>7.</strong> ஏக: புரஸ்தாத்ய இதம் பபூவ யதோ பபூவ புவனஸ்ய கோபா: | யமப்யேதி புவனம் ஸாம்பராயே ஸ நோ ஹவிர்க்ருதமிஹாயுஷே(அ)த்து தேவ: ||</div>
+      <div class="verse-block"><strong>8.</strong> வஸூன் ருத்ரான் ஆதித்யான் மருதோ(அ)த ஸாத்யான் ருபூன் யக்ஷான் கந்தர்வாம்ச்ச பித்ரூம்ச்ச விச்வான் | ப்ருகுன் ஸர்ப்பாம்ச்சாங்கிரஸோ(அ)த ஸர்வான் க்ருதகும் ஹுத்வா ஸ்வாயுஷ்யா மஹயாம சச்வத் ||</div>
+    `
+  },
+  atharva: {
+    title: "ஸ்ரீ கணபதி அதர்வశீர்ஷம் (Ganapathi Atharvashirsham)",
+    steps: "<strong>பாராயண முறை:</strong> கணபதி ஹோமத்தின் போதும், சஷ்டியப்த பூர்த்தி / சதாபிஷேக ஆரம்ப விக்னேஸ்வர பூஜையின் போதும் 1 அல்லது 3 முறை பாராயணம் செய்வது மகா புண்ணியம்.",
+    verses: `
+      <div class="verse-block"><strong>சாந்தி மந்திரம்:</strong> ஓம் பத்ரம் கர்ணேபி: ச்ருணுயாம தேவா: | பத்ரம் பச்யேமாக்ஷபிர்யஜத்ரா: | ஸ்திரைரங்கைஸ்துஷ்டுவாகும்ஸஸ்தனூபி: | வ்யசேம தேவஹிதம் யதாயு: ||</div>
+      <div class="verse-block"><strong>1-4:</strong> ஓம் நமஸ்தே கணபதயே | த்வமேவ ப்ரத்யக்ஷம் தத்த்வமஸி | த்வமேவ கேவலம் கர்த்தா(அ)ஸி | த்வமேவ கேவலம் தர்த்தா(அ)ஸி | த்வமேவ கேவலம் ஹர்த்தா(அ)ஸி | த்வமேவ ஸர்வம் கல்விதம் ப்ரஹ்மாஸி | த்வம் ஸாக்ஷாதாத்மா(அ)ஸி நித்யம் ||</div>
+      <div class="verse-block"><strong>5-7:</strong> ருதம் வச்மி | ஸத்யம் வச்மி || அவ த்வம் மாம் | அவ வக்தாரம் | அவ ச்ரோதாரம் | அவ தாதாரம் | அவ தாதாரம் | அவானூசானமவ சிஷ்யம் | அவ புரஸ்தாத் | அவ தக்ஷிணாத்தாத் | அவ பச்சாத்தாத் | அவோத்தராத்தாத் | அவ சோர்த்வாத்தாத் | அவாதராத்தாத் | ஸர்வதோ மாம் பாஹி பாஹி ஸமந்தாத் ||</div>
+      <div class="verse-block"><strong>8-10 (பீஜ மந்திரம் & காயத்ரி):</strong> த்வம் வாங்மயஸ்த்வம் சின்மய: | த்வமானந்தமயஸ்த்வம் ப்ரஹ்மமய: | த்வம் ஸச்சிதானந்தாத்விதீயோ(அ)ஸி | த்வம் ப்ரத்யக்ஷம் ப்ரஹ்மாஸி | த்வம் ஜ்ஞானமயோ விஜ்ஞானமயோ(அ)ஸி || ககாரம் பூர்வரூபம் | அகாரோ மத்தியமரூபம் | அனுஸ்வாரச்சாந்த்யரூபம் | பிந்துருத்தரரூபம் | நாத: ஸந்தானம் | ஸகும்ஹிதா ஸந்தி: | ஸைஷா கணேசவித்யா | கணக ருஷி: | நிச்ருத்காயத்ரீச்சந்த: | கணபதிர்தேவதா | <strong>ஓம் கம் கணபதயே நம: ||</strong><br>ஏகதந்தாய வித்மஹே வக்ரதுண்டாய தீமஹி | தன்னோ தந்தி: ப்ரசோதயாத் ||</div>
+      <div class="verse-block"><strong>11-15 (தியானம் & பலச்ருதி):</strong> ஏகதந்தம் சதுர்ஹஸ்தம் பாசமங்குசதாரிணம் | ரதம் ச வரதம் ஹஸ்தைர்பிப்ராணம் மூஷகத்வஜம் || ரக்தம் லம்போதரம் சூர்ப்பகர்ணகம் ரக்தவாஸஸம் | ரக்தகந்தானுலிப்தாங்கம் ரக்தபுஷ்பை: ஸுபூஜிதம் || நமோ வ்ராதபதயே நமோ கணபதயே நம: ப்ரமதபதயே நமஸ்தே(அ)ஸ்து லம்போதராயைகதந்தாய விக்னவிநாசினே சிவஸுதாய ஸ்ரீவரதமூர்த்தயே நமோ நம: ||</div>
+    `
+  },
+  rudram: {
+    title: "ஸ்ரீ ருத்ரம் - நமகம் & சமகம் (Sri Rudram)",
+    steps: "<strong>பாராயண முறை & செய்முறை:</strong><br>1. சஷ்டியப்த பூர்த்தி (60), பீமரத சாந்தி (70), சதாபிஷேகம் (80) மற்றும் ஆயுஷ் ஹோமங்களில் கலசத்திற்கு <strong>ஏகாதச ருத்ர ஜபம்</strong> (11 முறை நமகம் + 1 முறை சமகம்) செய்வது மிகச்சிறந்தது.<br>2. நமகத்தின் 11 அனுவாகங்களையும் சொல்லி, ஒவ்வொரு அனுவாக முடிவிலும் சமகத்தின் 1 அனுவாகத்தைச் சேர்த்துச் சொல்லி கலச நீரை அபிஷேகத்திற்குத் தயார் செய்யவும்.",
+    verses: `
+      <div class="verse-block"><strong>நமகம் - தியானம் & 1-ஆம் அனுவாகம்:</strong><br>ஓம் நமோ பகவதே ருத்ராய || நமஸ்தே ருத்ர மன்யவ உதோத இஷவே நம: | நமஸ்தே அஸ்து தன்வனே பாஹுப்யாமுத தே நம: || யா த இஷு: சிவதமா சிவம் பபூவ தே தனு: | சிவா சரவ்யா யா தவ தயா நோ ருத்ர ம்ருடய || யா தே ருத்ர சிவா தனூரகோரா(அ)பாபகாசினீ | தயா நஸ்தனுவா சந்தமயா கிரிசந்தாபிசாகசீஹி ||</div>
+      <div class="verse-block"><strong>நமகம் - முக்கிய நமஸ்கார அனுவாகங்கள் (அனுவாகம் 2 - 9 சாரம்):</strong><br>நமோ ஹிரண்யபாஹவே ஸேனான்யே திசாம் ச பதயே நமோ நமோ வ்ருக்ஷேப்யோ ஹரிகேசேப்ய: பசூனாம் பதயே நமோ நம: ஸஸ்பிஞ்ஜராய த்விஷீமதே பதீனாம் பதயே நமோ...<br><strong>அஷ்டாக்ஷரீ மகா மந்திரம் (அனுவாகம் 8):</strong> நம: சோமாய ச ருத்ராய ச நமஸ்தாம்ராய சாருணாய ச நம: சங்காய ச பசுபதயே ச நம உக்ராய ச பீமாய ச நமோ அக்ரேவதாய ச தூரேவதாய ச நமோ ஹந்த்ரே ச ஹனீயஸே ச நமோ வ்ருக்ஷேப்யோ ஹரிகேசேப்யோ நமஸ்தாராய <strong>நம: சம்பவே ச மயோபவே ச நம: சங்கராய ச மயஸ்கராய ச நம: சிவாய ச சிவதராய ச ||</strong></div>
+      <div class="verse-block"><strong>நமகம் - 10 & 11-ஆம் அனுவாகம் (ப்ரார்த்தனை):</strong><br>த்ராயம்பகம் யஜாமஹே ஸுகந்திம் புஷ்டிவர்த்தனம் | உர்வாருகமிவ பந்தனான்ம்ருத்யோர் முக்ஷீய மாம்ருதாத் || மா நோ மஹாந்தமுத மா நோ அர்ப்பகம் மா ந உக்ஷந்தமுத மா ந உக்ஷிதம் | மா நோ வதீ: பிதரம் மோத மாதரம் ப்ரியா மா நஸ்தனுவோ ருத்ர ரீரிஷ: ||</div>
+      <div class="verse-block"><strong>சமகம் (Chamakam - 1 முதல் 11 அனுவாக சாரம்):</strong><br>ஓம் அக்னாவிஷ்ணூ ஸஜோஷஸேமா வர்தந்து வாம் கிர: | த்யும்னைர்வாஜேபிராகதம் || வாஜச்ச மே ப்ரஸவச்ச மே ப்ரயதிச்ச மே ப்ரஸிதிச்ச மே தீதிச்ச மே க்ரதுச்ச மே ஸ்வரச்ச மே ச்லோகச்ச மே ச்ராவச்ச மே ச்ருதிச்ச மே ஜ்யோதிச்ச மே ஸுவச்ச மே ப்ராணச்ச மே(அ)பானச்ச மே வ்யானச்ச மே(அ)சுச்ச மே சித்தம் ச ம ஆதீதம் ச மே வாக்ச மே மனச்ச மே சக்ஷுச்ச மே ச்ரோத்ரம் ச மே தக்ஷச்ச மே பலம் ச ம ஓஜச்ச மே ஸஹச்ச ம ஆயுச்ச மே ஜரா ச ம ஆத்மா ச மே தனுச்ச மே சர்ம ச மே வர்ம ச மே(அ)ங்கானி ச மே(அ)ஸ்தானி ச மே பரூகும்ஷி ச மே சரீராணி ச மே ||<br><em>(இறுதி அனுவாகம்):</em> ஏகா ச மே திஸ்ரச்ச மே பஞ்ச ச மே ஸப்த ச மே நவ ச ம ஏகாதச ச மே த்ரயோதச ச மே பஞ்சதச ச மே ஸப்ததச ச மே நவதச ச ம ஏகவிம்சதிச்ச மே த்ரயோவிம்சதிச்ச மே பஞ்சவிம்சதிச்ச மே ஸப்தவிம்சதிச்ச மே நவவிம்சதிச்ச ம ஏகத்ரிம்சச்ச மே த்ரயஸ்த்ரிம்சச்ச மே சதுஸ்ரச்ச மே(அ)ஷ்டௌ ச மே த்வாதச ச மே ஷோடச ச மே விம்சதிச்ச மே சதுர்விம்சதிச்ச மே(அ)ஷ்டாவிம்சதிச்ச மே த்வாத்ரிம்சச்ச மே ஷட்த்ரிம்சச்ச மே சத்வாரிம்சச்ச மே சதுச்சத்வாரிம்சச்ச மே(அ)ஷ்டாசத்வாரிம்சச்ச மே வாஜச்ச ப்ரஸவச்சாபிஜச்ச க்ரதுச்ச ஸுவச்ச மூர்தா ச வ்யச்னியச்சாந்த்யாயனச்சாந்த்யச்ச பௌவனச்ச புவனச்சாதிபதிச்ச ||</div>
+    `
+  },
+  suryanamaskaram: {
+    title: "சூர்ய நமஸ்காரம் & அருணப் பிரச்னம் (Surya Namaskaram)",
+    steps: "<strong>செய்முறை (Steps to do Surya Namaskaram):</strong><br>1. அதிகாலையில் சூரிய உதயத்தின் போது கிழக்கு முகமாக நின்று, செம்பு பாத்திரத்தில் சுத்த நீர் (அர்க்கிய தீர்த்தம்) எடுத்துக் கொள்ளவும்.<br>2. கீழ்க்கண்ட 12 சூர்ய நாமங்களைச் சொல்லி, ஒவ்வொரு நாமாவிற்கும் 1 நமஸ்காரம் (அல்லது 12 ஆஸன நிலைகள் / அர்க்கியம்) செய்யவும்.<br>3. ஆரோக்கியம், கண்பார்வைத் தெளிவு மற்றும் பிதுர் தோஷ நிவர்த்திக்கு <strong>அருணப் பிரச்ன மந்திரம்</strong> (நமஸ்கார மந்திரம்) சொல்லித் தீர்த்தம் விடவும்.",
+    verses: `
+      <div class="verse-block"><strong>1. சூர்ய அர்க்கிய மந்திரம் (3 முறை தீர்த்தம் விடவும்):</strong><br>ஓம் ஏஹி ஸூர்ய ஸஹஸ்ராம்சோ தேஜோராசே ஜகத்பதே | அனுகம்பய மாம் பக்த்யா க்ருஹாணார்க்யம் திவாகர || ஓம் பானவே நம: இதமர்க்கியம் ஸமர்ப்பயாமி ||</div>
+      <div class="verse-block"><strong>2. 12 சூர்ய நமஸ்கார மந்திரங்கள் (12 நிலைகள்):</strong><br>
+      1. ஓம் <strong>மித்ராய</strong> நம: (ப்ரணாமாசனம்)<br>
+      2. ஓம் <strong>ரவயே</strong> நம: (ஹஸ்த உத்தானாசனம்)<br>
+      3. ஓம் <strong>ஸூர்யாய</strong> நம: (பாதஹஸ்தாசனம்)<br>
+      4. ஓம் <strong>பானவே</strong> நம: (அச்வ சஞ்சலனாசனம்)<br>
+      5. ஓம் <strong>ககாய</strong> நம: (பர்வதாசனம்)<br>
+      6. ஓம் <strong>பூஷ்ணே</strong> நம: (அஷ்டாங்க நமஸ்காரம்)<br>
+      7. ஓம் <strong>ஹிரண்யகர்ப்பாய</strong> நம: (புஜங்காசனம்)<br>
+      8. ஓம் <strong>மரீசயே</strong> நம: (பர்வதாசனம்)<br>
+      9. ஓம் <strong>ஆதித்யாய</strong> நம: (அச்வ சஞ்சலனாசனம்)<br>
+      10. ஓம் <strong>ஸவித்ரே</strong> நம: (பாதஹஸ்தாசனம்)<br>
+      11. ஓம் <strong>அர்க்காய</strong> நம: (ஹஸ்த உத்தானாசனம்)<br>
+      12. ஓம் <strong>பாஸ்கராய</strong> நம: (ப்ரணாமாசனம்)</div>
+      <div class="verse-block"><strong>3. அருணப் பிரச்ன சூர்ய நமஸ்கார மந்திரம் (யஜுர் வேதம்):</strong><br>ஓம் பத்ரம் கர்ணேபி: ச்ருணுயாம தேவா:... நமஸ்தே அஸ்து பகவன் விச்வேச்வராய மஹாதேவாய த்ரயம்பகாய த்ரிபுராந்தகாய த்ரிகாக்னிகாலாய காலாக்னிருத்ராய நீலகண்டாய ம்ருத்யுஞ்ஜயாய ஸர்வேச்வராய ஸதாசிவாய ஸ்ரீமன்மஹாதேவாய நம: ||<br><strong>சூர்ய காயத்ரி (11 முறை):</strong> ஓம் பாஸ்கராய வித்மஹே மஹாத்யுதிகராய தீமஹி | தன்னோ ஆதித்ய: ப்ரசோதயாத் ||</div>
+    `
+  }
+};
+
+const POOJA_DATA = {
+  ganapathy: {
+    title: "ஸ்ரீ மஹாகணபதி ஹோம கர்மண:",
+    deity: "ஸ்ரீ மஹாகணபதி தேவதாம் த்யாயாமி, ஆவாஹயாமி.",
+    isHomam: true,
+    magimai: "எந்தவொரு புதிய தொழில், திருமணம், வீடு கட்டுதல் அல்லது சுப காரியம் தொடங்கும் முன்பும் செய்யப்படும் முதன்மை ஹோமம். விநாயகரின் அருளால் எடுத்த காரியத்தில் ஏற்படும் அனைத்துத் தடைகளும் (விக்னங்கள்) நீங்கி, தடையற்ற வெற்றியும், புத்தி கூர்மையும், செல்வ வளமும் உண்டாகும்.",
+    kalasaJabam: "ஓம் ஆபோ ஹிஷ்டா மயோபுவ: தா ந ஊர்ஜே ததாதன | மஹே ரணாய சக்ஷஸே ||<br><strong>கணபதி காயத்ரி (11 முறை):</strong> ஓம் ஏகதந்தாய வித்மஹே வக்ரதுண்டாய தீமஹி | தன்னோ தந்தி: ப்ரசோதயாத் ||",
+    materials: "<strong>திரவியங்கள்:</strong> பசு நெய், அருகம்புல், மோதகம் (கொழுக்கட்டை), பொரி, அவல், கரும்புத் துண்டுகள், வாழைப்பழம், தேன், வெல்லம்.<br><strong>செய்முறை:</strong> மேற்கண்ட திரவியங்களை நெய்யில் தோய்த்து, கீழ்க்கண்ட மூல மந்திரம் மற்றும் வேத மந்திரம் சொல்லி 28 அல்லது 108 முறை அக்னியில் ஆஹுதி செய்யவும்.",
+    sankalpamTail: "க்ஷேம ஸ்தைர்ய வீர்ய விஜய ஆயுர் ஆரோக்ய ஐஸ்வர்யாபி வ்ருத்யர்த்தம், ஸமஸ்த துரிதோப சாந்த்யர்த்தம், ஸமஸ்த மங்கள அவாப்த்யர்த்தம், ஸர்வ விக்ன நிவாரணார்த்தம், கார்ய ஸித்யர்த்தம், ஸ்ரீ மஹாகணபதி ப்ரீத்யர்த்தம், ஸ்ரீ மஹாகணபதி ஹோம கர்ம கரிஷ்யே.",
+    mainMantra: "<strong>மூல மந்திரம் (28 / 108 முறை):</strong><br>ஓம் ஸ்ரீம் ஹ்ரீம் க்லீம் க்லௌம் கம் கணபதயே வரவரத ஸர்வஜனம் மே வசமானய ஸ்வாஹா | மஹாகணபதய இதம் ந மம ||<br><br><strong>வேத மந்திரம் (12 முறை):</strong><br>ஓம் கணானாம் த்வா கணபதிம் ஹவாமஹே கவிம் கவீனாமுபமஸ்ரவஸ்தமம் | ஜ்யேஷ்டராஜம் ப்ரஹ்மணாம் ப்ரஹ்மணஸ்பத ஆ ந: ச்ருண்வன்னூதிபிஸ்ஸீத ஸாதனம் ஸ்வாஹா | மஹாகணபதய இதம் ந மம ||"
+  },
+  ayush: {
+    title: "ஆயுஷ்ய ஹோம கர்மண:",
+    deity: "ஸ்ரீ ஆயுர்தேவதாம் மிருத்யுஞ்ஜய ருத்ரஞ்ச த்யாயாமி, ஆவாஹயாமி.",
+    isHomam: true,
+    magimai: "குழந்தைகளின் முதல் பிறந்தநாள் (அப்தபூர்த்தி) மற்றும் ஒவ்வொரு வருட ஜென்ம நட்சத்திரத்தன்றும் செய்ய வேண்டிய மிக முக்கியமான ஹோமம். இது ஜாதக ரீதியான ஆயுள் தோஷங்கள், கண்டங்கள், தீராத நோய்கள் மற்றும் அகால மரண பயத்தை நீக்கி, பூரண ஆரோக்கியத்தையும் தீர்க்காயுளையும் தரும்.",
+    kalasaJabam: "ஓம் யோ ப்ரஹ்மா ப்ரஹ்மண உஜ்ஜஹார ப்ராணைஸ்ஸிர: க்ருத்திவாஸா: பினாகீ | ஈசானோ தேவ: ஸ ந ஆயுர்ததாது தஸ்மை ஜுஹோமி ஹவிஷா க்ருதேன || (11 முறை)",
+    materials: "<strong>திரவியங்கள்:</strong> பசு நெய், அருகம்புல், கருப்பு எள், ஆலமர சமித்து, பால் பாயசம் (அன்னம்), வெல்லம்.<br><strong>செய்முறை:</strong> பிறந்தநாள் காண்பவரைக் கிழக்கு நோக்கி அமரச் செய்து, நெய், அருகம்புல் மற்றும் பாயசத்தால் 28 அல்லது 108 முறை ஆஹுதி செய்யவும்.",
+    sankalpamTail: "அஸ்ய யஜமானஸ்ய (பிறந்தநாள் காண்பவர் பெயர்) அபம்ருத்யு தோஷ நிவாரணார்த்தம், அபஸ்மாராதி ஸகல ரோக நிவ்ருத்யர்த்தம், சரீர ஆரோக்ய த்ருடத்வ ஸித்யர்த்தம், தீர்க்காயுஷ்மத்வ ப்ராப்த்யர்த்தம், ஆயுர்தேவதா ப்ரீத்யர்த்தம், ஆயுஷ்ய ஹோம கர்ம கரிஷ்யே.",
+    mainMantra: "<strong>ஆயுஷ்ய சூக்த மந்திரம் (28 / 108 முறை):</strong><br>ஓம் யோ ப்ரஹ்மா ப்ரஹ்மண உஜ்ஜஹார ப்ராணைஸ்ஸிர: க்ருத்திவாஸா: பினாகீ | ஈசானோ தேவ: ஸ ந ஆயுர்ததாது தஸ்மை ஜுஹோமி ஹவிஷா க்ருதேன ஸ்வாஹா | ஆயுர்தேவதாயை இதம் ந மம ||<br><br><strong>மிருத்யுஞ்சய மந்திரம் (12 முறை):</strong><br>ஓம் த்ரயம்பகம் யஜாமஹே ஸுகந்திம் புஷ்டிவர்த்தனம் | உர்வாருகமிவ பந்தனான்ம்ருத்யோர் முக்ஷீய மாம்ருதாத் ஸ்வாஹா | ருத்ராய இதம் ந மம ||"
+  },
+  kadhamba: {
+    title: "கதம்ப ஹோம கர்மண:",
+    deity: "ஸ்ரீ கணபதி நவக்ரஹாதி நானாவித ஸகல தேவதா: த்யாயாமி, ஆவாஹயாமி.",
+    isHomam: true,
+    magimai: "பல ஹோமங்களைத் தனித்தனியாகச் செய்ய இயலாத நிலையில், கணபதி, நவக்கிரகம், சுதர்சனர், தன்வந்திரி, மஹாலக்ஷ்மி மற்றும் துர்கை ஆகிய அனைத்து தெய்வங்களையும் ஒரே யாகத்தில் ஆவாஹனம் செய்து வழிபடும் சக்திவாய்ந்த ஹோமம். கிரக தோஷம், கண் திருஷ்டி, ஆரோக்கியம் மற்றும் ஐஸ்வர்யம் ஆகிய அனைத்தும் ஒரே நேரத்தில் சித்திக்கும்.",
+    kalasaJabam: "ஓம் ஆபோ ஹிஷ்டா மயோபுவ: தா ந ஊர்ஜே ததாதன | மஹே ரணாய சக்ஷஸே ||<br>ஓம் தத்ஸவிதுர்வரேண்யம் பர்கோ தேவஸ்ய தீமஹி | தியோ யோ ந: ப்ரசோதயாத் || (11 முறை)",
+    materials: "<strong>திரவியங்கள்:</strong> பசு நெய், நவதானியங்கள், தாமரை இதழ்கள், வில்வ இலை, துளசி, அருகம்புல், பழங்கள், தேன், வெல்லம், சமித்துக்கள்.<br><strong>செய்முறை:</strong> ஒவ்வொரு தெய்வத்தின் மந்திரத்தையும் சொல்லித் தலா 12 ஆஹுதிகள் சமர்ப்பிக்கவும்.",
+    sankalpamTail: "ஸகல தோஷ நிவாரணார்த்தம், ஸர்வாரிஷ்ட சாந்த்யர்த்தம், நவக்ரஹ தோஷ நிவ்ருத்யர்த்தம், ஸகல அபீஷ்ட ஸித்யர்த்தம், ஸ்ரீ கணபதி நவக்ரஹாதி நானாவித ஸகல தேவதா ப்ரீத்யர்த்தம், கதம்ப ஹோம கர்ம கரிஷ்யே.",
+    mainMantra: "<strong>1. கணபதி (12 முறை):</strong> ஓம் கம் கணபதயே நம: ஸ்வாஹா | கணபதய இதம் ந மம ||<br><strong>2. நவக்கிரகம் (12 முறை):</strong> ஓம் ஆதித்யாய ச ஸோமாய மங்களாய புதாய ச | குரு சுக்ர சனிப்யச்ச ராஹவே கேதவே நம: ஸ்வாஹா | நவக்ரஹேப்ய இதம் ந மம ||<br><strong>3. சுதர்சனர் (12 முறை):</strong> ஓம் ஸஹஸ்ரார ஹும் பட் ஸ்வாஹா | சுதர்சனாய இதம் ந மம ||<br><strong>4. தன்வந்திரி (12 முறை):</strong> ஓம் நமோ பகவதே வாஸுதேவாய தன்வந்தரயே அம்ருதகலச ஹஸ்தாய ஸர்வாமய விநாசனாய ஸ்ரீ மஹாவிஷ்ணவே ஸ்வாஹா ||<br><strong>5. லக்ஷ்மி & துர்கா (12 முறை):</strong> ஓம் ஸ்ரீம் ஹ்ரீம் க்லீம் மஹாலக்ஷ்ம்யை நம: ஸ்வாஹா || ஓம் தும் துர்காயை நம: ஸ்வாஹா ||"
+  },
+  navagraha: {
+    title: "நவக்கிரக ஹோம கர்மண:",
+    deity: "சூர்யாதி நவக்ரஹ தேவதா: த்யாயாமி, ஆவாஹயாமி.",
+    isHomam: true,
+    magimai: "ஜாதகத்தில் உள்ள தசா புத்தி தோஷங்கள், கோசார ரீதியான ஏழரைச் சனி, அஷ்டமச் சனி, ராகு-கேது பெயர்ச்சி பாதிப்புகள் மற்றும் கிரக யுத்த தோஷங்களை நிவர்த்தி செய்யும் ஹோமம். 9 கிரகங்களுக்கும் உரிய சமித்து மற்றும் தானியங்களால் ஆஹுதி செய்வதால் கெடுபலன்கள் நீங்கி யோக பலன்கள் உண்டாகும்.",
+    kalasaJabam: "ஓம் ஆதித்யாய ச ஸோமாய மங்களாய புதாய ச | குரு சுக்ர சனிப்யச்ச ராஹவே கேதவே நம: || (11 முறை)",
+    materials: "<strong>திரவியங்கள்:</strong> பசு நெய், நவதானியங்கள், 9 வகை சமித்துக்கள் (எருக்கு, பலாசு, கருங்காலி, நாயுருவி, அரசு, அத்தி, வன்னி, தர்ப்பை, அருகம்புல்), அன்னம்.<br><strong>செய்முறை:</strong> ஒவ்வொரு கிரகத்திற்கும் உரிய தானியம் மற்றும் சமித்துக்களை நெய்யில் தோய்த்து 9 அல்லது 12 முறை ஆஹுதி செய்யவும்.",
+    sankalpamTail: "ஜாதக ரீத்யா கோசார ரீத்யா ச வர்த்தமான ஸகல க்ரஹ தோஷ நிவாரணார்த்தம், அனுகூல க்ரஹ பல ஸித்யர்த்தம், சூர்யாதி நவக்ரஹ தேவதா ப்ரீத்யர்த்தம், நவக்ரஹ ஹோம கர்ம கரிஷ்யே.",
+    mainMantra: "1. <strong>சூரியன் (கோதுமை):</strong> ஓம் க்ராம் க்ரீம் க்ரௌம் ஸ: சூர்யாய நம: ஸ்வாஹா ||<br>2. <strong>சந்திரன் (நெல்):</strong> ஓம் ச்ராம் ச்ரீம் ச்ரௌம் ஸ: சந்த்ராய நம: ஸ்வாஹா ||<br>3. <strong>செவ்வாய் (துவரை):</strong> ஓம் க்ராம் க்ரீம் க்ரௌம் ஸ: பௌமாய நம: ஸ்வாஹா ||<br>4. <strong>புதன் (பச்சைப்பயறு):</strong> ஓம் ப்ராம் ப்ரீம் ப்ரௌம் ஸ: புதாய நம: ஸ்வாஹா ||<br>5. <strong>குரு (கொண்டைக்கடலை):</strong> ஓம் க்ராம் க்ரீம் க்ரௌம் ஸ: குரவே நம: ஸ்வாஹா ||<br>6. <strong>சுக்கிரன் (மொச்சை):</strong> ஓம் த்ராம் த்ரீம் த்ரௌம் ஸ: சுக்ராய நம: ஸ்வாஹா ||<br>7. <strong>சனி (கருப்பு எள்):</strong> ஓம் ப்ராம் ப்ரீம் ப்ரௌம் ஸ: சனைச்சராய நம: ஸ்வாஹா ||<br>8. <strong>ராகு (உளுந்து):</strong> ஓம் ப்ராம் ப்ரீம் ப்ரௌம் ஸ: ராஹவே நம: ஸ்வாஹா ||<br>9. <strong>கேது (கொள்ளு):</strong> ஓம் ஸ்ராம் ஸ்ரீம் ஸ்ரௌம் ஸ: கேதவே நம: ஸ்வாஹா ||"
+  },
+  vastu: {
+    title: "வாஸ்து ஹோம கர்மண:",
+    deity: "ஸ்ரீ வாஸ்து புருஷம் த்யாயாமி, ஆவாஹயாமி.",
+    isHomam: true,
+    magimai: "புதிய வீடு, அலுவலகம் அல்லது தொழிற்சாலை கட்டி முடித்த பின்பும், கிரகப்பிரவேசத்திற்கு முன்பும் செய்ய வேண்டிய ஹோமம். கட்டிட அமைப்பில் அறியாமல் ஏற்பட்ட வாஸ்து குறைபாடுகள், பூமி தோஷங்கள் மற்றும் எதிர்மறை அதிர்வுகளை நீக்கி, அந்த இடத்தில் குடியிருப்பவர்களுக்கு மன அமைதியையும் செல்வ வளத்தையும் தரும்.",
+    kalasaJabam: "ஓம் வாஸ்தோஷ்பதே ப்ரதிஜானீஹ்யஸ்மான் ஸ்வாவேசோ அனமீவோ பவா ந: | யத்வேமஹே ப்ரதி தன்னோ ஜுஷஸ்வ சம் நோ பவ த்விபதே சம் சதுஷ்பதே || (11 முறை)",
+    materials: "<strong>திரவியங்கள்:</strong> பசு நெய், பலாசு மற்றும் அரசு சமித்துக்கள், வெண் கடுகு, நவதானியம், பால் பாயசம், தேன்.<br><strong>செய்முறை:</strong> இடத்தின் ஈசானிய மூலையில் (வடகிழக்கு) கலசம் வைத்து பூஜித்து, 28 அல்லது 108 முறை ஆஹுதி செய்யவும்.",
+    sankalpamTail: "அஸ்மின் நூதன க்ருஹே (அல்லது பூமௌ) வாஸ்து தோஷ நிவாரணார்த்தம், க்ருஹ சுத்யர்த்தம், சகல ஐஸ்வர்ய அபிவ்ருத்யர்த்தம், வாஸ்து புருஷ ப்ரீத்யர்த்தம், வாஸ்து ஹோம கர்ம கரிஷ்யே.",
+    mainMantra: "<strong>வாஸ்து மூல மந்திரம் (28 / 108 முறை):</strong><br>ஓம் வாஸ்தோஷ்பதே ப்ரதிஜானீஹ்யஸ்மான் ஸ்வாவேசோ அனமீவோ பவா ந: | யத்வேமஹே ப்ரதி தன்னோ ஜுஷஸ்வ சம் நோ பவ த்விபதே சம் சதுஷ்பதே ஸ்வாஹா | வாஸ்தோஷ்பதய இதம் ந மம ||"
+  },
+  sudarshana: {
+    title: "ஸ்ரீ சுதர்சன ஹோம கர்மண:",
+    deity: "ஸ்ரீ சுதர்சன மஹாவிஷ்ணும் த்யாயாமி, ஆவாஹயாமி.",
+    isHomam: true,
+    magimai: "மஹாவிஷ்ணுவின் சக்கரத்தாழ்வாரான ஸ்ரீ சுதர்சனரை நோக்கிச் செய்யப்படும் மிக உக்கிரமான மற்றும் சக்திவாய்ந்த ஹோமம். கடுமையான கண் திருஷ்டி, செய்வினைக் கோளாறுகள், எதிரிகள் தொல்லை, கடன் சுமை மற்றும் தீராத வியாதிகளைச் சுதர்சன சக்கரம் சுழன்று அழித்து, குடும்பத்திற்கு அசைக்க முடியாத கவசமாக இருந்து காக்கும்.",
+    kalasaJabam: "ஓம் சுதர்சனாய வித்மஹே மஹாஜ்வாலாய தீமஹி | தன்னச்சக்ர: ப்ரசோதயாத் || (11 முறை)",
+    materials: "<strong>திரவியங்கள்:</strong> பசு நெய், துளசி இலைகள், தாமரை இதழ்கள், வில்வ இலை, வெண் கடுகு, தேன், சர்க்கரைப் பொங்கல்.<br><strong>செய்முறை:</strong> துளசி மற்றும் நெய்யால் 28 அல்லது 108 முறை ஆஹுதி செய்யவும்.",
+    sankalpamTail: "ஸகல திருஷ்டி தோஷ, அபிசார தோஷ, சத்ரு பய நிவாரணார்த்தம், சர்வ ரக்ஷார்த்தம், ஸ்ரீ சுதர்சன மஹாவிஷ்ணு ப்ரீத்யர்த்தம், ஸ்ரீ சுதர்சன ஹோம கர்ம கரிஷ்யே.",
+    mainMantra: "<strong>சுதர்சன மூல மந்திரம் (28 / 108 முறை):</strong><br>ஓம் ஸஹஸ்ரார ஹும் பட் ஸ்வாஹா | சுதர்சனாய இதம் ந மம ||<br><br><strong>சுதர்சன காயத்ரி ஆஹுதி (12 முறை):</strong><br>ஓம் சுதர்சனாய வித்மஹே மஹாஜ்வாலாய தீமஹி | தன்னச்சக்ர: ப்ரசோதயாத் ஸ்வாஹா ||"
+  },
+  lakshmi: {
+    title: "ஸ்ரீ மஹாலக்ஷ்மி ஹோம கர்மண:",
+    deity: "ஸ்ரீ மஹாலக்ஷ்மி தேவ்யை த்யாயாமி, ஆவாஹயாமி.",
+    isHomam: true,
+    magimai: "தொழில் விருத்தி, வியாபார அபிவிருத்தி, வராக்கடன் வசூலாகுதல், வீட்டில் நிலைத்த செல்வம் மற்றும் அஷ்ட ஐஸ்வர்யங்கள் பெருகச் செய்யப்படும் ஹோமம். தாமரை மலர்கள் மற்றும் வில்வ இலைகளால் ஆஹுதி செய்வதால் தரித்திரம் நீங்கி மஹாலக்ஷ்மியின் நிரந்தர கடாட்சம் கிட்டும்.",
+    kalasaJabam: "ஓம் மஹாலக்ஷ்ம்யை ச வித்மஹே விஷ்ணுபத்ன்யை ச தீமஹி | தன்னோ லக்ஷ்மீ: ப்ரசோதயாத் || (11 முறை)",
+    materials: "<strong>திரவியங்கள்:</strong> பசு நெய், செந்தாமரை இதழ்கள், வில்வ இலைகள், பால் பாயசம், தேன், ஏலக்காய், பச்சை கற்பூரம், கற்கண்டு.<br><strong>செய்முறை:</strong> தாமரை இதழ்களை நெய்யில் தோய்த்து 28 அல்லது 108 முறை ஆஹுதி செய்யவும்.",
+    sankalpamTail: "தாரித்ர்ய துக்க நிவாரணார்த்தம், வியாபார அபிவ்ருத்யர்த்தம், அஷ்ட ஐஸ்வர்ய ப்ராப்த்யர்த்தம், ஸ்ரீ மஹாலக்ஷ்மி ப்ரீத்யர்த்தம், ஸ்ரீ மஹாலக்ஷ்மி ஹோம கர்ம கரிஷ்யே.",
+    mainMantra: "<strong>மஹாலக்ஷ்மி மூல மந்திரம் (28 / 108 முறை):</strong><br>ஓம் ஸ்ரீம் ஹ்ரீம் க்லீம் கமலவாஸின்யை ஸ்வாஹா | மஹாலக்ஷ்ம்யை இதம் ந மம ||<br><br><strong>ஸ்ரீ சூக்த ஆஹுதி (12 முறை):</strong><br>ஓம் ஹிரண்யவர்ணாம் ஹரிணீம் ஸுவர்ணரஜதஸ்ரஜாம் | சந்த்ராம் ஹிரண்மயீம் லக்ஷ்மீம் ஜாதவேதோ ம ஆவஹ ஸ்வாஹா ||"
+  },
+  sathru: {
+    title: "சத்ரு சம்ஹார ஹோம கர்மண:",
+    deity: "ஸ்ரீ சுப்ரமண்ய சுவாமி சத்ரு சம்ஹார மூர்த்திம் த்யாயாமி, ஆவாஹயாமி.",
+    isHomam: true,
+    magimai: "திருச்செந்தூர் முருகப்பெருமானின் சத்ரு சம்ஹார தத்துவத்தை அடிப்படையாகக் கொண்ட ஹோமம். வழக்குகளில் வெற்றி, போட்டி பொறாமைகளால் ஏற்படும் தொழில் முடக்கம் நீங்குதல், மறைமுக எதிரிகள் விலகுதல் மற்றும் மன பயம் நீங்கி அபார தைரியம் உண்டாக இது செய்யப்படுகிறது.",
+    kalasaJabam: "ஓம் தத்புருஷாய வித்மஹே மஹாஸேனாய தீமஹி | தன்ன: ஷண்முக: ப்ரசோதயாத் || (11 முறை)",
+    materials: "<strong>திரவியங்கள்:</strong> பசு நெய், செவ்வரளி மலர்கள், வன்னி இலை, வெண் கடுகு, மிளகு, தேன், சர்க்கரைப் பொங்கல்.<br><strong>செய்முறை:</strong> செவ்வரளி மற்றும் நெய்யால் 28 அல்லது 108 முறை ஆஹுதி செய்யவும்.",
+    sankalpamTail: "ஸகல சத்ரு பய நிவாரணார்த்தம், வ்யவஹார விஜய ஸித்யர்த்தம், துஷ்ட பீடா நிவ்ருத்யர்த்தம், ஸ்ரீ சத்ரு சம்ஹார சுப்ரமண்ய ப்ரீத்யர்த்தம், சத்ரு சம்ஹார ஹோம கர்ம கரிஷ்யே.",
+    mainMantra: "<strong>சத்ரு சம்ஹார மூல மந்திரம் (28 / 108 முறை):</strong><br>ஓம் சௌம் சரவணபவ ஸ்ரீம் ஹ்ரீம் க்லீம் க்லௌம் சௌம் நம: ஸ்வாஹா | சுப்ரமண்யாய இதம் ந மம ||"
+  },
+  mrityunjaya: {
+    title: "மஹா மிருத்யுஞ்சய ஹோம கர்மண:",
+    deity: "ஸ்ரீ மஹா மிருத்யுஞ்சய ருத்ரம் த்யாயாமி, ஆவாஹயாமி.",
+    isHomam: true,
+    magimai: "மிகக் கடுமையான நோய்களால் பாதிக்கப்பட்டவர்கள், அறுவை சிகிச்சை செய்யவிருப்பவர்கள் மற்றும் ஜாதகத்தில் மாரக தசை நடப்பவர்களுக்காகச் செய்யப்படும் உயிர்காக்கும் ஹோமம். அமிர்த கலசம் ஏந்திய மிருத்யுஞ்சய மூர்த்தியின் அருளால் எம பயம் நீங்கிப் பூரண குணமடைவார்கள்.",
+    kalasaJabam: "ஓம் த்ரயம்பகம் யஜாமஹே ஸுகந்திம் புஷ்டிவர்த்தனம் | உர்வாருகமிவ பந்தனான்ம்ருத்யோர் முக்ஷீய மாம்ருதாத் || (11 முறை)",
+    materials: "<strong>திரவியங்கள்:</strong> பசு நெய், சீந்தில் கொடி (அமிர்தவல்லி), அருகம்புல், வில்வ இலை, கருப்பு எள், பால், பாயசம்.<br><strong>செய்முறை:</strong> சீந்தில் கொடி மற்றும் நெய்யால் 28 அல்லது 108 முறை ஆஹுதி செய்யவும்.",
+    sankalpamTail: "அஸ்ய யஜமானஸ்ய (நோயுற்றவர் பெயர்) அபம்ருத்யு தோஷ நிவாரணார்த்தம், தீர்க்க ரோக நிவ்ருத்யர்த்தம், பூர்ண ஆரோக்ய ஆயுஷ் ப்ராப்த்யர்த்தம், ஸ்ரீ மஹா மிருத்யுஞ்சய ப்ரீத்யர்த்தம், மிருத்யுஞ்சய ஹோம கர்ம கரிஷ்யே.",
+    mainMantra: "<strong>மஹா மிருத்யுஞ்சய மந்திரம் (28 / 108 முறை):</strong><br>ஓம் ஹௌம் ஜூம் ஸ: ஓம் பூர்புவஸ்ஸுவ: ஓம் த்ரயம்பகம் யஜாமஹே ஸுகந்திம் புஷ்டிவர்த்தனம் | உர்வாருகமிவ பந்தனான்ம்ருத்யோர் முக்ஷீய மாம்ருதாத் ஓம் ஸ்வ: புவ: பூ: ஓம் ஸ: ஜூம் ஹௌம் ஓம் ஸ்வாஹா | மிருத்யுஞ்சயாய இதம் ந மம ||"
+  },
+  punyaham: {
+    title: "சுத்தி புண்யாகவாசன கர்மண:",
+    deity: "ஸ்ரீ வருணாதி தேவதா: த்யாயாமி, ஆவாஹயாமி.",
+    isHomam: false,
+    magimai: "புதிய வீடு குடிபுகும் போதும், தீட்டு (அசௌசம்) கழிக்கும் போதும், வீட்டில் எதிர்மறை எண்ணங்கள் அல்லது அசுப நிகழ்வுகள் நடந்த பிறகும் வீட்டையும், பொருட்களையும், உடலையும் வேத மந்திரங்களால் புனிதப்படுத்தும் சடங்கு. இது இல்லத்தில் தெய்வீக சாந்நித்தியத்தை மீண்டும் நிலைநிறுத்தும்.",
+    kalasaJabam: "ஓம் ஹிரண்யச்ருங்கம் வருணம் ப்ரபத்யே தீர்த்தம் மே தேஹி யாசித: | யன்மயா புக்தமஸாதூனாம் பாபேப்யச்ச ப்ரதிக்ரஹ: || யன்மே மனஸா வாசா கர்மணா வா துஷ்க்ருதம் க்ருதம் | தன்ன இந்த்ரோ வருணோ ப்ருஹஸ்பதிஸ்ஸவிதா ச புனந்து புன: புன: || (10 முறை)",
+    materials: "<strong>தேவையான பொருட்கள்:</strong> செம்பு கும்பம் (கலசம்), புனித நீர், ஏலக்காய், பச்சை கற்பூரம், மாவிலை கொத்து, தேங்காய், மஞ்சள், குங்குமம், புஷ்பம், அட்சதை. <em>(இதற்கு ஹோம குண்டம் தேவையில்லை).</em><br><strong>செய்முறை:</strong> கலச பூஜை மற்றும் வருண ஜபம் முடித்து, மாவிலையால் கலச நீரை வீடு முழுவதும் மற்றும் குடும்பத்தினர் மீது தெளிக்கவும் (ப்ரோக்ஷணம்).",
+    sankalpamTail: "அஸ்மின் க்ருஹே (அல்லது பூமௌ) ஸகல தோஷ நிவாரணார்த்தம், சரீர சுத்யர்த்தம், க்ருஹ சுத்யர்த்தம், சர்வோபகரண சுத்யர்த்தம், புண்யாஹ வாசன கர்மணா யோகோ பவத்விதி பவந்தோ ப்ருவந்து... வருணாதி தேவதா ப்ரீத்யர்த்தம், சுத்தி புண்யாஹவாசன கர்ம கரிஷ்யே.",
+    mainMantra: "<strong>கலச தீர்த்த ப்ரோக்ஷண மந்திரம் (வீடு முழுவதும் தெளிக்கவும்):</strong><br>ஓம் ஆபோ ஹிஷ்டா மயோபுவ: தா ந ஊர்ஜே ததாதன | மஹே ரணாய சக்ஷஸே || யோ வஸ்ஸிவதமோ ரஸ: தஸ்ய பாஜயதேஹ ந: | உசதீரிவ மாதர: || தஸ்மா அரங்கமாம வோ யஸ்ய க்ஷயாய ஜின்வத | ஆபோ ஜனயதா ச ந: ||<br><br><strong>வாழ்த்து மந்திரம் (3 முறை சொல்லித் தெளிக்கவும்):</strong><br>ஓம் பூர்: புவ: ஸுவ: | சுத்தம் பவது | புண்யாஹம் பவது | மங்களம் பவது ||"
+  },
+  avani: {
+    title: "ஆவணி அவிட்டம் மஹா சங்கல்ப கர்மண:",
+    deity: "ஸ்ரீ காயத்ரீ தேவீம், ஸப்தர்ஷீன், வேதபுருஷஞ்ச த்யாயாமி, ஆவாஹயாமி.",
+    isHomam: false,
+    magimai: "ஆண்டு முழுவதும் தெரிந்தோ தெரியாமலோ செய்த பாவங்கள், சந்தியாவந்தன குறைபாடுகள் மற்றும் ஆசார மீறல்களுக்குப் பிராயச்சித்தமாகச் செய்யப்படும் புனிதமான சடங்கு. மஹா சங்கல்பம் செய்து புனித நீராடி, புதிய பூணூல் (யஜ்ஞோபவீதம்) அணிந்து வேத அத்தியயனத்தைத் தொடங்குவது அளவற்ற ஆத்ம பலத்தைத் தரும்.",
+    kalasaJabam: "ஓம் தத்ஸவிதுர்வரேண்யம் பர்கோ தேவஸ்ய தீமஹி | தியோ யோ ந: ப்ரசோதயாத் || (28 முறை)",
+    materials: "<strong>தேவையான பொருட்கள்:</strong> புதிய பூணூல் (யஜ்ஞோபவீதம்), சந்தனம், அட்சதை, புஷ்பம், தீர்த்த பாத்திரம், தர்ப்பை.<br><strong>செய்முறை:</strong> மஹா சங்கல்பம் சொல்லி நீராடிய பின், புதிய பூணூலை மந்திரம் சொல்லி அணிந்து, பழைய பூணூலை கழற்றி விடவும். பின்பு காயத்ரி ஜபம் செய்யவும்.",
+    sankalpamTail: "மமோபாத்த ஸமஸ்த துரிதக்ஷயத்வாரா ஸ்ரீ பரமேஸ்வர ப்ரீத்யர்த்தம் — <strong>(மஹா சங்கல்ப விசேஷம்):</strong> அநாதி அவித்யா வாஸனயா ப்ரவர்த்தமானே அஸ்மின் மஹதி ஸம்ஸார சக்ரே விசித்ராபி: கர்மகதிபி: விசித்ராஸு யோனிஷு புன: புன: அனேகதா ஜனித்வா... அஸ்மின் வர்த்தமானே வ்யவஹாரிகே சாலிவாஹன சகாப்தே... மம ஜன்மப்ரப்ருதி ஏதத்க்ஷண பர்யந்தம் பாலே வயஸி கௌமாரே யௌவனே வார்த்தகே ச ஜாக்ரத் ஸ்வப்ன ஸுஷுப்தி அவஸ்தாஸு மனோ வாக்காய கர்மபி: ஜ்ஞானத: அஜ்ஞானதச்ச க்ருதானாம் ஸமஸ்த பாபானாம் ஸத்ய: அபனோதனார்த்தம், ச்ரௌத ஸ்மார்த்த விஹித நித்ய நைமித்திக கர்மானுஷ்டான யோக்யதா ஸித்யர்த்தம், ப்ரஹ்ம தேஜோ அபிவ்ருத்யர்த்தம், நூதன யஜ்ஞோபவீத தாரண கர்ம கரிஷ்யே.",
+    mainMantra: "<strong>புதிய பூணூல் அணியும் மந்திரம்:</strong><br>ஓம் யஜ்ஞோபவீதம் பரமம் பவித்ரம் ப்ரஜாபதேர்யத்ஸஹஜம் புரஸ்தாத் | ஆயுஷ்யமக்ர்யம் ப்ரதிமுஞ்ச சுப்ரம் யஜ்ஞோபவீதம் பலமஸ்து தேஜ: ||<br><br><strong>பழைய பூணூல் கழற்றும் மந்திரம் (தொப்புளுக்குக் கீழே இறக்கி கழற்றவும்):</strong><br>உபவீதம் சின்னதந்தும் ஜீர்ணம் கச்மலதூஷிதம் | விஸ்ருஜாமி நஹி ப்ரஹ்மவர்ச்சோ தீர்க்காயுரஸ்து மே ||"
+  },
+  varalakshmi: {
+    title: "ஸ்ரீ வரலக்ஷ்மி விரத பூஜா கர்மண:",
+    deity: "ஸ்ரீ வரலக்ஷ்மி தேவ்யை த்யாயாமி, ஆவாஹயாமி.",
+    isHomam: false,
+    magimai: "ஆவணி மாத பௌர்ணமிக்கு முன் வரும் வெள்ளிக்கிழமையில் சுமங்கலிப் பெண்கள் செய்யும் உயரிய விரதம். அஷ்ட லக்ஷ்மிகளின் அருளையும் ஒரே நாளில் பெற்றுத் தரும் இவ்விரதத்தால், தீர்க்க சுமங்கலி பாக்கியம், குடும்ப ஒற்றுமை, வம்ச விருத்தி மற்றும் குறையாத செல்வ வளம் உண்டாகும்.",
+    kalasaJabam: "ஓம் மஹாலக்ஷ்ம்யை ச வித்மஹே விஷ்ணுபத்ன்யை ச தீமஹி | தன்னோ லக்ஷ்மீ: ப்ரசோதயாத் || (11 முறை)",
+    materials: "<strong>தேவையான பொருட்கள்:</strong> கலசம், தேங்காய், மாவிலை, ரவிக்கைத் துண்டு, மஞ்சள் சரடு (9 முடிச்சுகள் கொண்ட நோன்பு சரடு), தாமரை மலர்கள், வெற்றிலை பாக்கு, பழங்கள், கொழுக்கட்டை, பாயசம்.<br><strong>செய்முறை:</strong> கலசத்தில் வரலக்ஷ்மி அம்மனை ஆவாஹனம் செய்து, 108 அஷ்டோத்திர அர்ச்சனை செய்து, 9 முடிச்சு நோன்பு சரடைப் பூஜித்துக் கையில் கட்டிக்கொள்ளவும்.",
+    sankalpamTail: "மம ஸஹ குடும்பஸ்ய தீர்க்க ஸௌமாங்கல்ய அபிவ்ருத்யர்த்தம், புத்ர பௌத்ராதி ஸந்தான ஸம்ருத்யர்த்தம், அஷ்ட ஐஸ்வர்ய ப்ராப்த்யர்த்தம், ஸ்ரீ வரலக்ஷ்மி ப்ரீத்யர்த்தம், ஸ்ரீ வரலக்ஷ்மி விரத பூஜாம் கரிஷ்யே.",
+    mainMantra: "<strong>நோன்பு சரடு (தோரக்ரந்தி) பூஜை மந்திரம்:</strong><br>ஓம் கமலாயை நம: ப்ரதம க்ரந்திம் பூஜயாமி | ஓம் ரமாயை நம: த்விதீய க்ரந்திம் பூஜயாமி | ஓம் லோகமாத்ரே நம: த்ருதீய க்ரந்திம் பூஜயாமி | ஓம் விச்வஜனன்யை நம: சதுர்த்த க்ரந்திம் பூஜயாமி | ஓம் மஹாலக்ஷ்ம்யை நம: பஞ்சம க்ரந்திம் பூஜயாமி | ஓம் க்ஷீராப்திதனயாயை நம: ஷஷ்ட க்ரந்திம் பூஜயாமி | ஓம் விச்வஸாக்ஷிண்யை நம: ஸப்தம க்ரந்திம் பூஜயாமி | ஓம் சந்த்ரஸஹோதர்யை நம: அஷ்டம க்ரந்திம் பூஜயாமி | ஓம் ஸ்ரீ வரலக்ஷ்ம்யை நம: நவம க்ரந்திம் பூஜயாமி ||<br><br><strong>கையில் சரடு கட்டிக்கொள்ளும் மந்திரம்:</strong><br>பத்நாமி தக்ஷிணே ஹஸ்தே நவஸூத்ரம் சுபப்ரதம் | புத்ரபௌத்ராபிவ்ருத்திம் ச மம ஸௌபாக்யம் தேஹி மே ரமே ||"
+  },
+  gowri: {
+    title: "ஸ்ரீ கேதார கௌரி விரத பூஜா கர்மண:",
+    deity: "ஸ்ரீ அர்த்தநாரீச்வர ஸ்வரூப ஸ்ரீ கேதாரேச்வர சமேத கௌரீ தேவ்யை த்யாயாமி, ஆவாஹயாமி.",
+    isHomam: false,
+    magimai: "அன்னை பார்வதி தேவி சிவபெருமானின் உடலில் சரிபாதியைப் (அர்த்தநாரீஸ்வரர்) பெறுவதற்காகக் கடைப்பிடித்த புனித விரதம் (ஐப்பசி தீபாவளி அமாவாசை அன்று நிறைவு பெறுவது). கணவன்-மனைவி இடையே அன்னியோன்யம் பெருகவும், பிரிந்த தம்பதியர் ஒன்று சேரவும், திருமணத் தடைகள் நீங்கவும் இவ்விரதம் மிகச்சிறந்தது.",
+    kalasaJabam: "ஓம் காத்யாயனாய வித்மஹே கன்யாகுமாரி தீமஹி | தன்னோ துர்கி: ப்ரசோதயாத் || (11 முறை)",
+    materials: "<strong>தேவையான பொருட்கள்:</strong> கலசம், 21 முடிச்சுகள் கொண்ட நோன்பு சரடு (கௌரி காப்பு), 21 அதிரசம்/அப்பம், 21 வெற்றிலை பாக்கு, மஞ்சள், குங்குமம், வஸ்திரம்.<br><strong>செய்முறை:</strong> கலசத்தில் கேதாரேஸ்வரரையும் கௌரி அம்மனையும் பூஜித்து, 21 முடிச்சு சரடை வலது கையில் அணிந்து கொள்ளவும்.",
+    sankalpamTail: "மம ஸஹ குடும்பஸ்ய தம்பத்ய அன்யோன்ய ப்ரீதி ஸித்யர்த்தம், தீர்க்க ஸௌமாங்கல்ய ப்ராப்த்யர்த்தம், ஸகல சௌபாக்ய அபிவ்ருத்யர்த்தம், ஸ்ரீ கேதாரேச்வர ஸமேத ஸ்ரீ கௌரீ ப்ரீத்யர்த்தம், ஸ்ரீ கேதார கௌரீ விரத பூஜாம் கரிஷ்யே.",
+    mainMantra: "<strong>கௌரி நோன்பு சரடு (21 முடிச்சு) அணியும் மந்திரம்:</strong><br>ஓம் சிவாயை நம: | ஓம் கௌர்யை நம: | ஓம் உமாயை நம: | ஓம் பார்வத்யை நம: | ஓம் காத்யாயன்யை நம: | ஓம் ஸர்வமங்களாயை நம: ||<br><br><strong>சரடு கட்டிக்கொள்ளும் மந்திரம்:</strong><br>கேதார தேவதாப்ரீத்யை தாரயாமி சுபப்ரதம் | ஏகவிம்சதி க்ரந்தியுக்தம் ஸூத்ரம் கௌரீப்ரஸாதஜம் ||"
+  },
+  shastiyapthi: {
+    title: "சஷ்டியப்த பூர்த்தி சாந்தி கர்மண: (60-ஆம் கல்யாணம்)",
+    deity: "ஸ்ரீ மிருத்யுஞ்ஜய ருத்ரம், ஆயுர்தேவதாம், நவக்ரஹாதி அஷ்டதிக் பாலகான் த்யாயாமி, ஆவாஹயாமி.",
+    isHomam: true,
+    magimai: "மனித வாழ்வில் 60 தமிழ் வருடங்களைப் (பிரபவ முதல் அக்ஷய வரை) பூர்த்தி செய்யும் 60-வது வயதில் (உக்ரரத சாந்தி / சஷ்டியப்த பூர்த்தி) செய்யப்படும் மாபெரும் சாந்தி வைபவம். 60 வயது வரை ஏற்பட்ட கிரக மற்றும் ஆயுள் தோஷங்களை நீக்கி, தம்பதியர் மீண்டும் மாங்கல்ய தாரணம் செய்து, அடுத்த 40 ஆண்டுகள் பூரண ஆரோக்கியத்துடனும், பிள்ளைகள்-பேரப்பிள்ளைகளுடன் நிறைவாழ்வு வாழவும் இது செய்யப்படுகிறது.",
+    kalasaJabam: "<strong>1. மிருத்யுஞ்சய ஜபம்:</strong> ஓம் த்ரயம்பகம் யஜாமஹே ஸுகந்திம் புஷ்டிவர்த்தனம் | உர்வாருகமிவ பந்தனான்ம்ருத்யோர் முக்ஷீய மாம்ருதாத் ||<br><strong>2. ஆயுஷ்ய சூக்தம்:</strong> ஓம் யோ ப்ரஹ்மா ப்ரஹ்மண உஜ்ஜஹார ப்ராணைஸ்ஸிர: க்ருத்திவாஸா: பினாகீ | ஈசானோ தேவ: ஸ ந ஆயுர்ததாது || (11 முறை)",
+    materials: "<strong>செய்முறை படிகள்:</strong><br>1. <strong>கலச ஸ்தாபனம்:</strong> பிரதான மிருத்யுஞ்சய கலசம், ஆயுள் தேவதா கலசம், நவக்கிரக கலசங்கள் மற்றும் அஷ்டதிக் பாலக கலசங்களை அமைத்து, <strong>ஸ்ரீ ருத்ரம் (நமகம்-சமகம்), புருஷ சூக்தம், ஆயுஷ்ய சூக்தம்</strong> பாராயணம் செய்யவும்.<br>2. <strong>ஹோம திரவியங்கள்:</strong> பசு நெய், சீந்தில் கொடி, அருகம்புல், கருப்பு எள், 9 வகை சமித்துக்கள், பால் பாயசம், பட்டு வஸ்திரம், புதிய திருமாங்கல்யம்.<br>3. <strong>நிறைவுச் சடங்கு:</strong> பூர்ணாஹுதி முடிந்ததும், கலச புனித நீரால் தம்பதியருக்கு அபிஷேகம் செய்து, சுப முகூர்த்தத்தில் மீண்டும் <strong>திருமாங்கல்ய தாரணம்</strong> செய்து பெரியோர்கள் மற்றும் சிறியோர்களுக்கு ஆசி வழங்கவும்.",
+    sankalpamTail: "அஸ்ய யஜமானஸ்ய ஷஷ்டி ஸம்வத்ஸர பூர்த்தி நிமித்தமாக, உக்ரரத சாந்தி, கால ம்ருத்யு தோஷ நிவாரணார்த்தம், சரீர ஆரோக்ய த்ருடத்வ ஸித்யர்த்தம், தீர்க்காயுஷ்மத்வ, தீர்க்க ஸௌமாங்கல்ய அபிவ்ருத்யர்த்தம், ஸ்ரீ மஹா மிருத்யுஞ்சய ஆயுர்தேவதா ப்ரீத்யர்த்தம், சஷ்டியப்த பூர்த்தி சாந்தி ஹோம கர்ம கரிஷ்யே.",
+    mainMantra: "<strong>1. மிருத்யுஞ்சய & ஆயுஷ்ய ஹோமம் (28 / 108 முறை):</strong><br>ஓம் த்ரயம்பகம் யஜாமஹே ஸுகந்திம் புஷ்டிவர்த்தனம் | உர்வாருகமிவ பந்தனான்ம்ருத்யோர் முக்ஷீய மாம்ருதாத் ஸ்வாஹா ||<br>ஓம் யோ ப்ரஹ்மா ப்ரஹ்மண உஜ்ஜஹார... தஸ்மை ஜுஹோமி ஹவிஷா க்ருதேன ஸ்வாஹா ||<br><br><strong>2. மாங்கல்ய தாரண மந்திரம் (கலச அபிஷேகத்திற்குப் பின்):</strong><br>மாங்கல்யம் தந்துனானேன மம ஜீவன ஹேதுனா | கண்டே பத்னாமி ஸுபகே த்வம் ஜீவ சரத: சதம் ||"
+  },
+  bheemaradha: {
+    title: "பீமரத சாந்தி கர்மண: (70-ஆம் ஆண்டு சாந்தி)",
+    deity: "ஸ்ரீ ரௌத்ர ருத்ரம், மிருத்யுஞ்ஜய ருத்ரம், காலபுருஷம் த்யாயாமி, ஆவாஹயாமி.",
+    isHomam: true,
+    magimai: "70-வது வயது பூர்த்தியாகும்போது (69 முடிந்து 70 தொடங்கும் போது) செய்யப்படும் முக்கியமான சாந்தி சடங்கு. சாஸ்திரப்படி 70-வது வயதில் ஏற்படக்கூடிய 'பீமரதி' எனும் கால தோஷத்தை நீக்கி, முதுமையினால் ஏற்படும் உடல் தளர்ச்சி, நோய்கள் நீங்கித் தெளிவான அறிவும் தீர்க்காயுளும் உண்டாக இச்சாந்தி செய்யப்படுகிறது.",
+    kalasaJabam: "ஓம் த்ரயம்பகம் யஜாமஹே ஸுகந்திம் புஷ்டிவர்த்தனம் | உர்வாருகமிவ பந்தனான்ம்ருத்யோர் முக்ஷீய மாம்ருதாத் ||<br>ஓம் நமோ பகவதே ருத்ராய || (11 முறை)",
+    materials: "<strong>செய்முறை படிகள்:</strong><br>1. <strong>கலச பூஜை:</strong> பீமரத சாந்தி கலசத்தில் மிருத்யுஞ்சயர் மற்றும் ஆயுள் தேவதையை ஆவாஹனம் செய்து, <strong>ஸ்ரீ ருத்ரம் (நமகம்-சமகம்), ஆயுஷ்ய சூக்தம், புருஷ சூக்தம்</strong> பாராயணம் செய்யவும்.<br>2. <strong>ஹோம திரவியங்கள்:</strong> பசு நெய், அருகம்புல், வில்வ இலை, கருப்பு எள், ஆலமர சமித்து, பாயசம்.<br>3. <strong>நிறைவுச் சடங்கு:</strong> பூர்ணாஹுதி முடிந்த பின்பு, கலச தீர்த்தத்தால் தம்பதியருக்கு அபிஷேகம் செய்து, புத்தாடை அணிவித்து, மாலை மாற்றி, குடும்பத்தினருக்கு ஆசீர்வாதம் வழங்கச் செய்யவும்.",
+    sankalpamTail: "அஸ்ய யஜமானஸ்ய ஸப்ததிதம வர்ஷ ப்ரவேச நிமித்தமாக, பீமரத சாந்தி, அபம்ருத்யு தோஷ நிவாரணார்த்தம், ஸகல ரோக பீடா நிவ்ருத்யர்த்தம், தீர்க்காயுஷ்மத்வ ப்ராப்த்யர்த்தம், ஸ்ரீ மிருத்யுஞ்ஜய ருத்ர ஆயுர்தேவதா ப்ரீத்யர்த்தம், பீமரத சாந்தி ஹோம கர்ம கரிஷ்யே.",
+    mainMantra: "<strong>1. பீமரத சாந்தி & மிருத்யுஞ்சய ஹோம மந்திரம் (28 / 108 முறை):</strong><br>ஓம் ஹௌம் ஜூம் ஸ: ஓம் பூர்புவஸ்ஸுவ: ஓம் த்ரயம்பகம் யஜாமஹே ஸுகந்திம் புஷ்டிவர்த்தனம் | உர்வாருகமிவ பந்தனான்ம்ருத்யோர் முக்ஷீய மாம்ருதாத் ஸ்வாஹா | மிருத்யுஞ்சயாய இதம் ந மம ||<br><br><strong>2. ஆயுஷ்ய சூக்த ஆஹுதி (28 முறை):</strong><br>ஓம் யோ ப்ரஹ்மா ப்ரஹ்மண உஜ்ஜஹார... தஸ்மை ஜுஹோமி ஹவிஷா க்ருதேன ஸ்வாஹா | ஆயுர்தேவதாயை இதம் ந மம ||"
+  },
+  sadhabhishegam: {
+    title: "சதாபிஷேக சாந்தி கர்மண: (80-ஆம் ஆண்டு / 1000 பிறை)",
+    deity: "ஸ்ரீ சகஸ்ர சந்த்ர மண்டல அதிபதிம், ஸ்ரீ மஹாவிஷ்ணும், மிருத்யுஞ்ஜய ருத்ரம், ஆயுர்தேவதாம் த்யாயாமி, ஆவாஹயாமி.",
+    isHomam: true,
+    magimai: "80 வயது பூர்த்தியாகி, வாழ்வில் 1000 பௌர்ணமி நிலவுகளைத் தரிசித்த மகா பாக்கியம் பெற்றவர்களுக்காகச் செய்யப்படும் தெய்வீக வைபவம் ('சகஸ்ர சந்திர தரிசன சாந்தி'). 1000 பிறை கண்டவர்கள் நடமாடும் தெய்வத்திற்குச் சமமானவர்கள். இவர்களுக்குப் புனித கலச அபிஷேகம் செய்து பாத பூஜை செய்து ஆசி பெறுவது, அக்குடும்பத்தின் ஏழு தலைமுறைக்கும் புண்ணியத்தையும் ஐஸ்வர்யத்தையும் தரும்.",
+    kalasaJabam: "<strong>1. சந்திர மந்திரம்:</strong> ஓம் ததிக்ராவ்ண்ணோ அகாரிஷம் ஜிஷ்ணோரச்வஸ்ய வாஜின: | ஸுரபி நோ முகாகரத் ப்ர ண ஆயூகும்ஷி தாரிஷத் ||<br><strong>2. மிருத்யுஞ்சய & நாராயண மந்திரம்:</strong> ஓம் த்ரயம்பகம் யஜாமஹே... || ஓம் நமோ நாராயணாய || (11 முறை)",
+    materials: "<strong>செய்முறை படிகள்:</strong><br>1. <strong>பிரதான கலச ஸ்தாபனம்:</strong> நடுவில் மகா கும்பமும், அதனைச் சுற்றி 8 அல்லது 16 கலசங்களும் (சந்திரன், நவக்கிரகம், சப்தரிஷிகள், மிருத்யுஞ்சயர், விஷ்ணு) அமைத்து, <strong>புருஷ சூக்தம், நாராயண சூக்தம், ஸ்ரீ சூக்தம், ஸ்ரீ ருத்ரம்</strong> பாராயணம் செய்யவும்.<br>2. <strong>ஹோம திரவியங்கள்:</strong> பசு நெய், நெல் பொரி, வெள்ளை எள், அருகம்புல், தாமரை இதழ்கள், சீந்தில் கொடி, பால் பாயசம்.<br>3. <strong>சதாபிஷேக மகா அபிஷேகம்:</strong> பூர்ணாஹுதிக்குப் பின், வேத மந்திரங்கள் முழங்க அனைத்துக் கலச புனித நீராலும் தம்பதியருக்கு அபிஷேகம் செய்து, புத்தாடை அணிவித்து, பிள்ளைகள்-பேரப்பிள்ளைகள் பாத பூஜை செய்து ஆசி பெறவும்.",
+    sankalpamTail: "அஸ்ய யஜமானஸ்ய அசீதிதம வர்ஷ பூர்த்தி, ஸஹஸ்ர சந்த்ர தர்சன நிமித்தமாக, ஸகல க்ரஹ தோஷ, ஆயுள் தோஷ நிவாரணார்த்தம், சரீர ஆரோக்ய ஐஸ்வர்ய அபிவ்ருத்யர்த்தம், வம்ச அபிவ்ருத்யர்த்தம், ஸ்ரீ சகஸ்ர சந்த்ர மண்டல அதிபதி, ஸ்ரீ மஹாவிஷ்ணு, மிருத்யுஞ்ஜய ருத்ர ப்ரீத்யர்த்தம், சதாபிஷேக சாந்தி ஹோம கர்ம கரிஷ்யே.",
+    mainMantra: "<strong>1. சந்திர ஹோம மந்திரம் (28 முறை):</strong><br>ஓம் இமம் தேவா அஸபத்னகும் ஸுவத்வம் மஹதே க்ஷத்ராய மஹதே ஜ்யைஷ்ட்யாய மஹதே ஜானராஜ்யாயேந்த்ரஸ்யேந்த்ரியாய... ஸோமாய ராஜ்ஞே ஸ்வாஹா | சந்த்ராய இதம் ந மம ||<br><br><strong>2. மிருத்யுஞ்சய & விஷ்ணு ஹோமம் (28 / 108 முறை):</strong><br>ஓம் த்ரயம்பகம் யஜாமஹே ஸுகந்திம் புஷ்டிவர்த்தனம் | உர்வாருகமிவ பந்தனான்ம்ருத்யோர் முக்ஷீய மாம்ருதாத் ஸ்வாஹா ||<br>ஓம் நமோ பகவதே வாஸுதேவாய ஸ்வாஹா ||<br><br><strong>3. சதாபிஷேக தீர்த்த அபிஷேக மந்திரம்:</strong><br>ஓம் ஆபோ ஹிஷ்டா மயோபுவ:... யோ வஸ்ஸிவதமோ ரஸ:... சதம் ஜீவ சரதோ வர்தமான: சதம் ஹேமந்தான் சதமு வஸந்தான் ||"
+  }
+};
+
+let currentPanchanga = {
+  samvatsara: "", ayanam: "", ruthu: "", masam: "", paksham: "",
+  thithi: "", vasaram: "", nakshatram: "", yogam: "", karanam: ""
+};
+
+let currentFontSize = 19;
+let themes = ["parchment", "light", "dark"];
+let themeIcons = ["📜", "☀️", "🌙"];
+let currentThemeIdx = 0;
+let wakeLock = null;
+
+function init() {
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const mm = String(today.getMonth() + 1).padStart(2, '0');
+  const dd = String(today.getDate()).padStart(2, '0');
+  document.getElementById('poojaDate').value = `${yyyy}-${mm}-${dd}`;
+  updatePanchangaFromDate();
+  renderSuktam();
+}
+
+function updatePanchangaFromDate() {
+  const val = document.getElementById('poojaDate').value;
+  if (!val) return;
+  const parts = val.split('-').map(Number);
+  const dateObj = new Date(parts[0], parts[1] - 1, parts[2], 8, 0, 0);
+
+  const vasaram = VASARAM_MAP[dateObj.getDay()];
+
+  const m = parts[1];
+  const d = parts[2];
+  let tamilMonthIdx = 0;
+  for (let i = 0; i < 12; i++) {
+    const curr = TAMIL_MONTHS_INFO[i];
+    const next = TAMIL_MONTHS_INFO[(i + 1) % 12];
+    if (m === curr.start[0] && d >= curr.start[1]) { tamilMonthIdx = i; break; }
+    if (m === next.start[0] && d < next.start[1]) { tamilMonthIdx = i; break; }
+  }
+  const tInfo = TAMIL_MONTHS_INFO[tamilMonthIdx];
+
+  let tamilYearGregorian = parts[0];
+  if (m < 4 || (m === 4 && d < 14)) {
+    tamilYearGregorian -= 1;
+  }
+  const samvatsaraIdx = ((tamilYearGregorian - 1987) % 60 + 60) % 60;
+  const samvatsara = SAMVATSARAS[samvatsaraIdx];
+
+  const jd = (dateObj.getTime() / 86400000) + 2440587.5;
+  const D = jd - 2451545.0;
+
+  let L_sun = (280.460 + 0.9856474 * D) % 360;
+  let g_sun = ((357.528 + 0.9856003 * D) % 360) * Math.PI / 180;
+  let lambda_sun = (L_sun + 1.915 * Math.sin(g_sun) + 0.020 * Math.sin(2 * g_sun)) % 360;
+  if (lambda_sun < 0) lambda_sun += 360;
+
+  let L_moon = (218.316 + 13.176396 * D) % 360;
+  let M_moon = ((134.963 + 13.064993 * D) % 360) * Math.PI / 180;
+  let F_moon = ((93.272 + 13.229350 * D) % 360) * Math.PI / 180;
+  let lambda_moon = (L_moon + 6.289 * Math.sin(M_moon) - 1.274 * Math.sin(2 * F_moon - M_moon) + 0.658 * Math.sin(2 * F_moon)) % 360;
+  if (lambda_moon < 0) lambda_moon += 360;
+
+  const ayanamsa = 23.85 + (D / 365.25) * 0.01397;
+  let sid_sun = (lambda_sun - ayanamsa + 360) % 360;
+  let sid_moon = (lambda_moon - ayanamsa + 360) % 360;
+
+  let diff = (sid_moon - sid_sun + 360) % 360;
+  let thithiIdx = Math.floor(diff / 12);
+  let paksham = thithiIdx < 15 ? "சுக்ல" : "கிருஷ்ண";
+  let thithi = THITHI_NAMES[thithiIdx];
+
+  let nakIdx = Math.floor(sid_moon / (360 / 27));
+  let nakshatram = NAKSHATRA_NAMES[nakIdx];
+
+  let yogaDeg = (sid_sun + sid_moon) % 360;
+  let yogaIdx = Math.floor(yogaDeg / (360 / 27));
+  let yogam = YOGA_NAMES[yogaIdx];
+
+  let halfThithi = Math.floor(diff / 6);
+  let karanaName = "";
+  if (halfThithi === 0) karanaName = KARANA_NAMES[10];
+  else if (halfThithi >= 57) karanaName = KARANA_NAMES[halfThithi - 57 + 7];
+  else karanaName = KARANA_NAMES[(halfThithi - 1) % 7];
+
+  currentPanchanga = {
+    samvatsara,
+    ayanam: tInfo.ayanam,
+    ruthu: tInfo.ruthu,
+    masam: tInfo.name,
+    paksham,
+    thithi,
+    vasaram,
+    nakshatram,
+    yogam,
+    karanam: karanaName
+  };
+
+  document.getElementById('p_samvatsara').value = currentPanchanga.samvatsara;
+  document.getElementById('p_ayanam').value = currentPanchanga.ayanam;
+  document.getElementById('p_ruthu').value = currentPanchanga.ruthu;
+  document.getElementById('p_masam').value = currentPanchanga.masam;
+  document.getElementById('p_paksham').value = currentPanchanga.paksham;
+  document.getElementById('p_thithi').value = currentPanchanga.thithi;
+  document.getElementById('p_vasaram').value = currentPanchanga.vasaram;
+  document.getElementById('p_nakshatram').value = currentPanchanga.nakshatram;
+  document.getElementById('p_yogam').value = currentPanchanga.yogam;
+  document.getElementById('p_karanam').value = currentPanchanga.karanam;
+
+  renderPooja();
+}
+
+function syncManualPanchanga() {
+  currentPanchanga = {
+    samvatsara: document.getElementById('p_samvatsara').value,
+    ayanam: document.getElementById('p_ayanam').value,
+    ruthu: document.getElementById('p_ruthu').value,
+    masam: document.getElementById('p_masam').value,
+    paksham: document.getElementById('p_paksham').value,
+    thithi: document.getElementById('p_thithi').value,
+    vasaram: document.getElementById('p_vasaram').value,
+    nakshatram: document.getElementById('p_nakshatram').value,
+    yogam: document.getElementById('p_yogam').value,
+    karanam: document.getElementById('p_karanam').value
+  };
+  renderPooja();
+}
+
+function togglePanchangaEdit() {
+  document.getElementById('panchangaEditBox').classList.toggle('open');
+}
+
+function getPanchangaClause() {
+  const p = currentPanchanga;
+  const pureNakshatram = p.nakshatram.split('(')[0].trim();
+  return `<span class="filled">${p.samvatsara}</span> நாம ஸம்வத்ஸரே, ` +
+         `<span class="filled">${p.ayanam}</span>, ` +
+         `<span class="filled">${p.ruthu}</span> ருதௌ, ` +
+         `<span class="filled">${p.masam}</span> மாஸே, ` +
+         `<span class="filled">${p.paksham}</span> பக்ஷே, ` +
+         `<span class="filled">${p.thithi}</span> சுபதிதௌ, ` +
+         `<span class="filled">${p.vasaram}</span>, ` +
+         `<span class="filled">${pureNakshatram}</span> நக்ஷத்ர யுக்தாயாம், ` +
+         `<span class="filled">${p.yogam}</span> யோக யுக்தாயாம், ` +
+         `<span class="filled">${p.karanam}</span> கரண யுக்தாயாம்`;
+}
+
+function renderAshtotharamList() {
+  const deityKey = document.getElementById('ashtotharamSelect').value;
+  const namaArray = ASHTOTHARAM_LISTS[deityKey] || ASHTOTHARAM_LISTS.shiva;
+  const listEl = document.getElementById('namavaliList');
+  listEl.innerHTML = namaArray.map((n, idx) =>
+    `<div class="nama-item" onclick="toggleNama(this)">
+      <span class="nama-num">${idx + 1}</span>
+      <span>ஓம் <strong>${n}</strong> நம:</span>
+    </div>`
+  ).join('');
+  updateNamaCounter();
+}
+
+function renderSuktam() {
+  const sKey = document.getElementById('suktamSelect').value;
+  const sData = SUKTAM_DATA[sKey] || SUKTAM_DATA.purusha;
+  document.getElementById('suktamDisplayBox').innerHTML = `
+    <h3 style="margin-top:0;">${sData.title}</h3>
+    <p style="margin-bottom:12px; font-size:0.95rem; color:var(--muted);">${sData.steps}</p>
+    <div style="font-weight:600;">${sData.verses}</div>
+  `;
+}
+
+function renderPooja() {
+  const key = document.getElementById('poojaSelect').value;
+  const data = POOJA_DATA[key];
+  const p = currentPanchanga;
+
+  document.getElementById('panchangaSummary').innerHTML =
+    `<strong>அன்றைய குறிப்பு:</strong> ${p.samvatsara} வருடம் • ${p.masam} • ${p.paksham} பக்ஷம் ${p.thithi} • <strong>${p.nakshatram}</strong>`;
+
+  document.getElementById('magimaiContent').innerHTML = `<p>${data.magimai}</p>`;
+
+  const pClause = getPanchangaClause();
+  const karthaBlank = `<span class="blank-holder">[_______ கோத்ரஸ்ய, _______ நக்ஷத்ரே ஜாதஸ்ய, _______ சர்மண:]</span>`;
+  document.getElementById('ganapathySankalpamBox').innerHTML =
+    `மமோபாத்த ஸமஸ்த துரிதக்ஷயத்வாரா ஸ்ரீ பரமேஸ்வர ப்ரீத்யர்த்தம், சுபே சோபனே முஹூர்த்தே ஆத்ய ப்ரஹ்மண: த்விதீய பரார்த்தே ஸ்வேத வராஹ கல்பே வைவஸ்வத மன்வந்தரே அஷ்டாவிம்சதிதமே கலியுகே ப்ரதமே பாதே ஜம்பூத்வீபே பாரதவர்ஷே பரதகண்டே மேரோ: தக்ஷிணே பார்ஸ்வே சகாப்தே அஸ்மின் வர்த்தமானே வ்யவஹாரிகே ப்ரபவாதி ஷஷ்டி ஸம்வத்ஸராணாம் மத்யே:<br><br>` +
+    `${pClause};<br><br>` +
+    `ஏவங்குண விசேஷண விசிஷ்டாயாம் அஸ்யாம் சுபதிதௌ — ${karthaBlank} மம ஸஹ குடும்பஸ்ய க்ஷேம ஸ்தைர்ய வீர்ய விஜய ஆயுர் ஆரோக்ய ஐஸ்வர்யாபி வ்ருத்யர்த்தம், கரிஷ்யமாணஸ்ய <strong>${data.title}</strong> நிர்விக்னேன பரிஸமாப்த்யர்த்தம் ஆதௌ விக்னேஸ்வர பூஜாம் கரிஷ்யே.`;
+
+  document.getElementById('kalasaDeityLine').textContent = data.deity;
+  document.getElementById('kalasaJabamBox').innerHTML = data.kalasaJabam;
+
+  renderAshtotharamList();
+
+  document.getElementById('agniSection').style.display = data.isHomam ? 'block' : 'none';
+  document.getElementById('materialsAndSteps').innerHTML = `<div class="mantra-box" style="font-weight:normal;">${data.materials}</div>`;
+  document.getElementById('mainSankalpamBox').innerHTML =
+    `மமோபாத்த ஸமஸ்த துரிதக்ஷயத்வாரா ஸ்ரீ பரமேஸ்வர ப்ரீத்யர்த்தம் — ${pClause} — ஏவங்குண விசேஷண விசிஷ்டாயாம் அஸ்யாம் சுபதிதௌ — ${karthaBlank} மம ஸஹ குடும்பஸ்ய ${data.sankalpamTail}`;
+  document.getElementById('mainMantraBox').innerHTML = data.mainMantra;
+
+  if (data.isHomam) {
+    document.getElementById('niraivuContent').innerHTML = `
+      <div class="mantra-box">
+        <strong>1. ஸ்விஷ்டக்ருத் ஆஹுதி (நெய்யால் 2 முறை):</strong><br>
+        • ஓம் அக்னயே ஸ்விஷ்டக்ருதே ஸ்வாஹா | அக்னயே ஸ்விஷ்டக்ருத இதம் ந மம ||<br>
+        • ஓம் பூர்புவஸ்ஸுவஸ்வாஹா | ப்ரஜாபதய இதம் ந மம ||<br><br>
+        <strong>2. பூர்ணாஹுதி (பட்டு வஸ்திரம், தேங்காய், பழம், நவதானியம் அக்னியில் சமர்ப்பித்தல்):</strong><br>
+        ஓம் பூர்ணமத: பூர்ணமிதம் பூர்ணாத் பூர்ணமுதச்யதே | பூர்ணஸ்ய பூர்ணமாதாய பூர்ணமேவாவசிஷ்யதே || ஓம் ஸர்வம் வை பூர்ணம் ஸ்வாஹா ||<br><br>
+        <strong>3. வஸோர்த்தாரா (தொடர்ந்து நெய் ஊற்றுதல்) & தீபாராதனை:</strong><br>
+        ஓம் ஸப்த தே அக்னே ஸமிதஸ்ஸப்த ஜிஹ்வாஸ்ஸப்த ருஷயஸ்ஸப்த தாம ப்ரியாணி | ஸப்த ஹோத்ராஸ்ஸப்ததா த்வா யஜந்தி ஸப்த யோனீராப்ருணஸ்வா க்ருதேன ஸ்வாஹா ||<br><br>
+        <strong>4. யதாஸ்தானம், கலச அபிஷேகம் & ரக்ஷை:</strong><br>
+        • மஞ்சள் பிள்ளையார் மற்றும் கலசத்தை வடக்கு நோக்கி நகர்த்தவும்: <em>ஆவாஹிதாப்ய: ஸர்வாப்யோ தேவதாப்யோ நம: யதாஸ்தானம் ப்ரதிஷ்டாபயாமி.</em><br>
+        • கலச நீரை மாவிலையால் குடும்பத்தினர் (அல்லது சாந்தி தம்பதியர்) மற்றும் வீடு முழுவதும் தெளிக்கவும்: <em>"ஓம் புண்யாஹம் பவது, தீர்க்காயுஷ்மத்வம் அஸ்து, சர்வ மங்களம் பவது"</em>.<br>
+        • ஹோம குண்டத்தின் வடகிழக்குப் பகுதியிலிருந்து விபூதி எடுத்து <strong>"ரக்ஷாம் தாரயாமி"</strong> என்று அனைவருக்கும் இடவும்.
+      </div>`;
+  } else {
+    document.getElementById('niraivuContent').innerHTML = `
+      <div class="mantra-box">
+        <strong>1. கற்பூர தீபாராதனை & மந்த்ரபுஷ்பம்:</strong><br>
+        ஸ்ரீ கர்ப்பூர நீராஜனம் தர்சயாமி | மந்த்ரபுஷ்பம் ஸமர்ப்பயாமி | ப்ரதக்ஷிண நமஸ்காரான் ஸமர்ப்பயாமி.<br><br>
+        <strong>2. யதாஸ்தானம் & கலச தீர்த்த ப்ரோக்ஷணம்:</strong><br>
+        • மஞ்சள் பிள்ளையார் மற்றும் கலசத்தை வடக்கு நோக்கிச் சற்று நகர்த்தவும்: <em>ஆவாஹிதாப்ய: ஸர்வாப்யோ தேவதாப்யோ நம: யதாஸ்தானம் ப்ரதிஷ்டாபயாமி | சோபனார்த்தே க்ஷேமாய புனராகமனாய ச ||</em><br>
+        • கலச புனித நீரை மாவிலையால் எடுத்து யஜமானர், குடும்பத்தினர் மற்றும் இல்லம் முழுவதும் தெளித்து, சிறிது தீர்த்தத்தை அனைவரும் அருந்தவும்.
+      </div>`;
+  }
+}
+
+function toggleNama(el) {
+  el.classList.toggle('done');
+  updateNamaCounter();
+}
+
+function updateNamaCounter() {
+  const doneCount = document.querySelectorAll('.nama-item.done').length;
+  document.getElementById('namaCounter').textContent = `${doneCount} / 108`;
+}
+
+function resetNamavali() {
+  document.querySelectorAll('.nama-item.done').forEach(el => el.classList.remove('done'));
+  updateNamaCounter();
+}
+
+function changeFont(delta) {
+  currentFontSize = Math.min(28, Math.max(15, currentFontSize + delta));
+  document.documentElement.style.setProperty('--font-size', currentFontSize + 'px');
+}
+
+function cycleTheme() {
+  currentThemeIdx = (currentThemeIdx + 1) % themes.length;
+  document.body.setAttribute('data-theme', themes[currentThemeIdx]);
+  document.getElementById('themeBtn').textContent = themeIcons[currentThemeIdx];
+}
+
+async function toggleWakeLock() {
+  const btn = document.getElementById('wakeBtn');
+  if (!wakeLock) {
+    try {
+      if ('wakeLock' in navigator) {
+        wakeLock = await navigator.wakeLock.request('screen');
+        btn.classList.add('active');
+      } else {
+        alert("உங்கள் பிரவுசர் திரை அணையாமல் தடுக்கும் வசதியை ஆதரிக்கவில்லை.");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  } else {
+    wakeLock.release();
+    wakeLock = null;
+    btn.classList.remove('active');
+  }
+}
+
+init();
+</script>
+</body>
+</html>
